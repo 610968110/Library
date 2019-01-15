@@ -12,6 +12,9 @@ import com.lbx.library.databinding.ActivityLoginBinding;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.type.LanguageType;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
@@ -75,12 +78,21 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        try {
-            //设置语言
-            Config.LANGUAGE = (int) v.getTag();
-            MainActivity.getIntent(this).start();
-            finish();
-        } catch (Exception ignored) {
+        switch (v.getId()) {
+            case R.id.btn_lng_chinese:
+            case R.id.btn_lng_english:
+            case R.id.btn_lng_japanese:
+            case R.id.btn_lng_korean:
+                try {
+                    //设置语言
+                    Config.setLanguage(LanguageType.getTypeByLocale((Locale) v.getTag()));
+                    MainActivity.getIntent(this).start();
+                    finish();
+                } catch (Exception ignored) {
+                }
+                break;
+            default:
+                break;
         }
     }
 }

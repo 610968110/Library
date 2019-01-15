@@ -1,5 +1,7 @@
 package com.lbx.library.type;
 
+import java.util.Locale;
+
 /**
  * .  ┏┓　　　┏┓
  * .┏┛┻━━━┛┻┓
@@ -25,18 +27,27 @@ package com.lbx.library.type;
 
 public enum LanguageType {
 
-    CHINESE(0),
-    ENGLISH(1),
-    JSPANESE(2),
-    KOREAN(3);
+    CHINESE(Locale.SIMPLIFIED_CHINESE),
+    ENGLISH(Locale.ENGLISH),
+    JAPANESE(Locale.JAPANESE),
+    KOREAN(Locale.KOREAN);
 
-    private int type;
+    private Locale locale;
 
-    LanguageType(int type) {
-        this.type = type;
+    LanguageType(Locale locale) {
+        this.locale = locale;
     }
 
-    public int getType() {
-        return type;
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public static LanguageType getTypeByLocale(Locale locale) {
+        for (LanguageType type : LanguageType.values()) {
+            if (type.getLocale() == locale) {
+                return type;
+            }
+        }
+        return CHINESE;
     }
 }

@@ -20,7 +20,7 @@
             android:layout_width="@dimen/login_btn_w"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:tag="@{LanguageType.CHINESE.getType}"
+            android:tag="@{LanguageType.CHINESE.getLocale}"
             android:text="@string/lng_chinese" />
 
         <Button
@@ -28,7 +28,7 @@
             android:layout_width="@dimen/login_btn_w"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:tag="@{LanguageType.ENGLISH.getType}"
+            android:tag="@{LanguageType.ENGLISH.getLocale}"
             android:text="@string/lng_english" />
 
         <Button
@@ -36,7 +36,7 @@
             android:layout_width="@dimen/login_btn_w"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:tag="@{LanguageType.JSPANESE.getType}"
+            android:tag="@{LanguageType.JAPANESE.getLocale}"
             android:text="@string/lng_japanese" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_width="@dimen/login_btn_w"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:tag="@{LanguageType.KOREAN.getType}"
+            android:tag="@{LanguageType.KOREAN.getLocale}"
             android:text="@string/lng_korean" />
 
         <ImageView
