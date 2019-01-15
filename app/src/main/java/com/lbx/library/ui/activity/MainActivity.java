@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.lbx.library.base.BaseActivity;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.ui.view.TopBar;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
@@ -28,6 +30,8 @@ public class MainActivity extends BaseActivity {
     NavigationView mNavigationView;
     @BindView(R.id.dl_main)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.tb_main)
+    TopBar mTopBar;
 
     public static XIntent getIntent(Context context) {
         return new XIntent(context, MainActivity.class);
@@ -57,6 +61,7 @@ public class MainActivity extends BaseActivity {
         params.width = XTools.WindowUtil().getScreenWidth() -
                 XTools.ResUtil().getDimen(R.dimen.menu_offset);
         mNavigationView.setLayoutParams(params);
+        mTopBar.setLeftIconImg(R.drawable.menu, v -> mDrawerLayout.openDrawer(Gravity.START));
     }
 
     @Override
