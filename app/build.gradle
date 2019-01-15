@@ -67,6 +67,11 @@ android {
         //无视多做了本地化的字符串
         disable 'ExtraTranslation'
     }
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res_overlay']
+        }
+    }
 }
 
 repositories {

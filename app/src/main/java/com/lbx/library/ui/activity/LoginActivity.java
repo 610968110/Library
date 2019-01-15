@@ -1,5 +1,6 @@
 package com.lbx.library.ui.activity;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
 
 import butterknife.BindView;
+import lbx.xtoollib.XIntent;
 
 /**
  * @author lbx
@@ -28,6 +30,10 @@ public class LoginActivity extends BaseActivity {
     Button mBtnLngJapanese;
     @BindView(R.id.btn_lng_korean)
     Button mBtnLngKorean;
+
+    public static XIntent getIntent(Context context) {
+        return new XIntent(context, LoginActivity.class);
+    }
 
     @Override
     public void bindComponent(AppComponent appComponent) {

@@ -5,5 +5,11 @@
     <string name="lng_english">English</string>
     <string name="lng_japanese">日本語</string>
     <string name="lng_korean">한국어</string>
+    <string name="introductionToLibrary">图书馆简介</string>
+    <string name="myFriends">我的伙伴</string>
+    <string name="guideLanguage">导览语言</string>
+    <string name="questionnaireInvestigation">问卷调查</string>
+    <string name="interactiveAnswer">互动答题</string>
+    <string name="deviceInformation">设备信息</string>
 
 </resources>

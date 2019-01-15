@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/group_introductionToLibrary">
+        <item
+            android:id="@+id/item_introductionToLibrary"
+            android:onClick="introductionToLibrary"
+            android:orderInCategory="100"
+            android:title="@string/introductionToLibrary" />
+    </group>
+
+    <group android:id="@+id/group_myFriends">
+        <item
+            android:id="@+id/item_myFriends"
+            android:onClick="myFriends"
+            android:orderInCategory="100"
+            android:title="@string/myFriends" />
+    </group>
+
+    <group android:id="@+id/group_guideLanguage">
+        <item
+            android:id="@+id/item_guideLanguage"
+            android:onClick="guideLanguage"
+            android:orderInCategory="100"
+            android:title="@string/guideLanguage" />
+    </group>
+
+    <group android:id="@+id/group_questionnaireInvestigation">
+        <item
+            android:id="@+id/item_questionnaireInvestigation"
+            android:onClick="questionnaireInvestigation"
+            android:orderInCategory="100"
+            android:title="@string/questionnaireInvestigation" />
+    </group>
+
+    <group android:id="@+id/group_interactiveAnswer">
+        <item
+            android:id="@+id/item_interactiveAnswer"
+            android:onClick="interactiveAnswer"
+            android:orderInCategory="100"
+            android:title="@string/interactiveAnswer" />
+    </group>
+
+    <group android:id="@+id/group_deviceInformation">
+        <item
+            android:id="@+id/item_deviceInformation"
+            android:onClick="deviceInformation"
+            android:orderInCategory="100"
+            android:title="@string/deviceInformation" />
+    </group>
+
+
+</menu>
