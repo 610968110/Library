@@ -1,8 +1,4 @@
-package com.lbx.library;
-
-import com.lbx.library.type.LanguageType;
-
-import lbx.xtoollib.XTools;
+package com.lbx.library.type;
 
 /**
  * .  ┏┓　　　┏┓
@@ -24,16 +20,23 @@ import lbx.xtoollib.XTools;
  * .      ┗┻┛　┗┻┛
  *
  * @author lbx
- * @date 2019/1/14.
+ * @date 2019/1/15.
  */
 
-public class Config {
+public enum LanguageType {
 
-    public static final boolean DEBUG = XTools.ApkUtil().isApkInDebug(XTools.getApplicationContext());
+    CHINESE(0),
+    ENGLISH(1),
+    JSPANESE(2),
+    KOREAN(3);
 
-    public static int LANGUAGE = LanguageType.CHINESE.getType();
+    private int type;
 
-    public static void init() {
+    LanguageType(int type) {
+        this.type = type;
+    }
 
+    public int getType() {
+        return type;
     }
 }

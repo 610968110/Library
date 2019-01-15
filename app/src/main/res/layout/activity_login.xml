@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lbx.library.ui.activity.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <data>
+
+        <import type="com.lbx.library.type.LanguageType" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.lbx.library.ui.activity.LoginActivity">
+        android:gravity="center"
+        android:orientation="vertical">
 
-    </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_lng_chinese"
+            android:layout_width="@dimen/login_btn_w"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:tag="@{LanguageType.CHINESE.getType}"
+            android:text="@string/lng_chinese" />
+
+        <Button
+            android:id="@+id/btn_lng_english"
+            android:layout_width="@dimen/login_btn_w"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:tag="@{LanguageType.ENGLISH.getType}"
+            android:text="@string/lng_english" />
+
+        <Button
+            android:id="@+id/btn_lng_japanese"
+            android:layout_width="@dimen/login_btn_w"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:tag="@{LanguageType.JSPANESE.getType}"
+            android:text="@string/lng_japanese" />
+
+        <Button
+            android:id="@+id/btn_lng_korean"
+            android:layout_width="@dimen/login_btn_w"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:tag="@{LanguageType.KOREAN.getType}"
+            android:text="@string/lng_korean" />
+
+        <ImageView
+            android:layout_width="@dimen/logo_w"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="50dp" />
+
+    </LinearLayout>
 
 </layout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--登录页面-->
+    <dimen name="login_btn_w">150dp</dimen>
+    <dimen name="logo_w">200dp</dimen>
+
+</resources>

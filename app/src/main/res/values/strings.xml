@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Library</string>
+
+    <string name="lng_chinese">中文</string>
+    <string name="lng_english">English</string>
+    <string name="lng_japanese">日本語</string>
+    <string name="lng_korean">한국어</string>
+
 </resources>
