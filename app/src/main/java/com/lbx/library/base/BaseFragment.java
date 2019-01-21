@@ -36,7 +36,6 @@ import com.lbx.library.injector.components.FragmentComponent;
 public abstract class BaseFragment extends lbx.xtoollib.base.BaseFragment {
 
     public FragmentComponent mFragmentComponent;
-    private long time;
 
     @Nullable
     @Override

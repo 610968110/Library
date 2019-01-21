@@ -4,11 +4,17 @@
     <dimen name="topBar_h">70dp</dimen>
 
     <!--登录页面-->
-    <dimen name="login_btn_w">150dp</dimen>
+    <dimen name="login_btn_w">168dp</dimen>
+    <dimen name="login_btn_h">38dp</dimen>
+    <dimen name="login_btn_m_t">20dp</dimen>
     <dimen name="logo_w">200dp</dimen>
 
     <!--菜单-->
-    <dimen name="menu_header_h">200dp</dimen>
-    <dimen name="menu_offset">100dp</dimen>
+    <dimen name="menu_header_h">190dp</dimen>
+    <dimen name="menu_offset">180dp</dimen>
+
+    <!--楼层预览-->
+    <dimen name="floor_item_h">150dp</dimen>
+    <dimen name="floor_item_name_s">14dp</dimen>
 
 </resources>

@@ -12,6 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/main_bg"
             android:orientation="vertical">
 
             <com.lbx.library.ui.view.TopBar
@@ -31,7 +32,9 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@drawable/main_bg"
             app:headerLayout="@layout/menu_header"
+            app:itemTextColor="@color/colorAccent"
             app:menu="@menu/menu_bottom">
 
         </android.support.design.widget.NavigationView>

@@ -11,5 +11,6 @@
     <string name="questionnaireInvestigation">问卷调查</string>
     <string name="interactiveAnswer">互动答题</string>
     <string name="deviceInformation">设备信息</string>
+    <string name="guide">导览</string>
 
 </resources>

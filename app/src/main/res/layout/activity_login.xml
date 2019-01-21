@@ -12,46 +12,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/login_bg"
         android:gravity="center"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_lng_chinese"
             android:layout_width="@dimen/login_btn_w"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/login_btn_h"
             android:layout_marginTop="10dp"
+            android:background="@drawable/login_btn_bg"
             android:tag="@{LanguageType.CHINESE.getLocale}"
-            android:text="@string/lng_chinese" />
+            android:text="@string/lng_chinese"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/btn_lng_english"
             android:layout_width="@dimen/login_btn_w"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/login_btn_h"
+            android:layout_marginTop="@dimen/login_btn_m_t"
+            android:background="@drawable/login_btn_bg"
             android:tag="@{LanguageType.ENGLISH.getLocale}"
-            android:text="@string/lng_english" />
+            android:text="@string/lng_english"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/btn_lng_japanese"
             android:layout_width="@dimen/login_btn_w"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/login_btn_h"
+            android:layout_marginTop="@dimen/login_btn_m_t"
+            android:background="@drawable/login_btn_bg"
             android:tag="@{LanguageType.JAPANESE.getLocale}"
-            android:text="@string/lng_japanese" />
+            android:text="@string/lng_japanese"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/btn_lng_korean"
             android:layout_width="@dimen/login_btn_w"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/login_btn_h"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="@dimen/login_btn_m_t"
+            android:background="@drawable/login_btn_bg"
             android:tag="@{LanguageType.KOREAN.getLocale}"
-            android:text="@string/lng_korean" />
-
-        <ImageView
-            android:layout_width="@dimen/logo_w"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:paddingBottom="50dp" />
+            android:text="@string/lng_korean"
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 

@@ -6,7 +6,9 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -59,6 +61,8 @@ public class TopBar extends FrameLayout {
         mLeftImageView = view.findViewById(R.id.iv_bar_left);
         mRightImageView = view.findViewById(R.id.iv_bar_right);
         mTitleView = view.findViewById(R.id.tv_bar_title);
+        mTitleView.setTextColor(XTools.ResUtil().getColor(R.color.colorAccent));
+        mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         addView(view);
     }
 
@@ -67,13 +71,21 @@ public class TopBar extends FrameLayout {
     }
 
     public void bind(Activity activity, String title) {
-        mLeftImageView.setImageResource(R.drawable.finish);
+        mLeftImageView.setImageResource(R.drawable.back);
         mLeftImageView.setOnClickListener(v -> activity.finish());
         setTitle(title, Gravity.START);
     }
 
     public void setTitle(String title) {
         setTitle(title, Gravity.CENTER);
+    }
+
+    public void setTitle(@StringRes int titleId) {
+        setTitle(titleId, Gravity.CENTER);
+    }
+
+    public void setTitle(@StringRes int titleId, int gravity) {
+        setTitle(XTools.ResUtil().getString(titleId), gravity);
     }
 
     public void setTitle(String title, int gravity) {
