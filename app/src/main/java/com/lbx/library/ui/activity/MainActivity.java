@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
                 .appComponent(appComponent)
                 .activityModule(new ActivityModule(this))
                 .build();
+        mActivityComponent.inject(this);
     }
 
     @Override

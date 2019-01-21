@@ -12,5 +12,7 @@
     <string name="interactiveAnswer">互动答题</string>
     <string name="deviceInformation">设备信息</string>
     <string name="guide">导览</string>
+    <string name="exhibits_list">展品列表</string>
+    <string name="auto_play">自动播放</string>
 
 </resources>

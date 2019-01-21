@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#dad5cd</color>
     <color name="colorAccent">#9F0303</color>
 
+    <color name="colorAccent2">#9C6C3E</color>
+
     <!--菜单-->
     <color name="menu_line_c">#EFB3B2</color>
 

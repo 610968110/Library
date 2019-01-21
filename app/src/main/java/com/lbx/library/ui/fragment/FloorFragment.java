@@ -1,5 +1,6 @@
 package com.lbx.library.ui.fragment;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +11,16 @@ import com.lbx.library.R;
 import com.lbx.library.adapter.FloorAdapter;
 import com.lbx.library.base.BaseFragment;
 import com.lbx.library.bean.Floor;
+import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.ActivityComponent;
 import com.lbx.library.injector.components.DaggerFragmentComponent;
+import com.lbx.library.ui.activity.FloorDetailedActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import lbx.xtoollib.base.BaseDataAdapter;
+import lbx.xtoollib.phone.xLogUtil;
 
 /**
  * .  ┏┓　　　┏┓
@@ -44,6 +50,9 @@ public class FloorFragment extends BaseFragment {
     @BindView(R.id.rv_floor)
     RecyclerView mFloorListView;
     private FloorAdapter mAdapter;
+    @Inject
+    @ContextLifeCycle
+    Context mContext;
 
     public static FloorFragment newInstance() {
         Bundle args = new Bundle();
@@ -57,6 +66,7 @@ public class FloorFragment extends BaseFragment {
         mFragmentComponent = DaggerFragmentComponent.builder()
                 .activityComponent(activityComponent)
                 .build();
+        mFragmentComponent.inject(this);
     }
 
     @Override
@@ -87,7 +97,8 @@ public class FloorFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseDataAdapter.OnItemClickListener<Floor>() {
             @Override
             public void onItemClick(RecyclerView recyclerView, int id, int position, Floor entity) {
-
+                xLogUtil.e(this, "点击，进入Floor详情页");
+                FloorDetailedActivity.getIntent(mContext, entity).start();
             }
 
             @Override

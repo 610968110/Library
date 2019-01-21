@@ -22,6 +22,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+        <TextView
+            android:id="@+id/tv_bar_lesser_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
         <ImageView
             android:id="@+id/iv_bar_right"
             android:layout_width="wrap_content"

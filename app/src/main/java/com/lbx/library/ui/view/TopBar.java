@@ -45,7 +45,7 @@ import lbx.xtoollib.XTools;
 public class TopBar extends FrameLayout {
 
     private ImageView mLeftImageView, mRightImageView;
-    private TextView mTitleView;
+    private TextView mTitleView, mLesserTitleView;
 
     public TopBar(@NonNull Context context) {
         this(context, null);
@@ -61,8 +61,12 @@ public class TopBar extends FrameLayout {
         mLeftImageView = view.findViewById(R.id.iv_bar_left);
         mRightImageView = view.findViewById(R.id.iv_bar_right);
         mTitleView = view.findViewById(R.id.tv_bar_title);
-        mTitleView.setTextColor(XTools.ResUtil().getColor(R.color.colorAccent));
+        mLesserTitleView = view.findViewById(R.id.tv_bar_lesser_title);
+
+        mTitleView.setTextColor(XTools.ResUtil().getColor(R.color.colorAccent2));
         mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        mLesserTitleView.setTextColor(XTools.ResUtil().getColor(R.color.colorAccent2));
+        mLesserTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         addView(view);
     }
 
@@ -91,6 +95,27 @@ public class TopBar extends FrameLayout {
     public void setTitle(String title, int gravity) {
         mTitleView.setGravity(gravity | Gravity.CENTER_VERTICAL);
         mTitleView.setText(title);
+    }
+
+    public void setLesserTitle(String title) {
+        setLesserTitle(title, Gravity.CENTER);
+    }
+
+    public void setLesserTitle(@StringRes int titleId) {
+        setLesserTitle(titleId, Gravity.CENTER);
+    }
+
+    public void setLesserTitle(@StringRes int titleId, int gravity) {
+        setLesserTitle(XTools.ResUtil().getString(titleId), gravity);
+    }
+
+    public void setLesserTitle(String title, int gravity) {
+        mLesserTitleView.setGravity(gravity | Gravity.CENTER_VERTICAL);
+        mLesserTitleView.setText(title);
+    }
+
+    public void setLesserTitleClickListener(OnClickListener listener) {
+        mLesserTitleView.setOnClickListener(listener);
     }
 
     public void setLeftIconImg(@DrawableRes int img) {

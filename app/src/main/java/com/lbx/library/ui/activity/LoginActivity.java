@@ -44,6 +44,7 @@ public class LoginActivity extends BaseActivity {
                 .appComponent(appComponent)
                 .activityModule(new ActivityModule(this))
                 .build();
+        mActivityComponent.inject(this);
     }
 
     @Override

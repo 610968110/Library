@@ -3,6 +3,7 @@ package com.lbx.library.injector.components;
 
 import com.lbx.library.injector.ForFragment;
 import com.lbx.library.injector.modules.FragmentModule;
+import com.lbx.library.ui.fragment.FloorFragment;
 
 import dagger.Component;
 
@@ -32,4 +33,5 @@ import dagger.Component;
 @Component(dependencies = {ActivityComponent.class}, modules = {FragmentModule.class})
 public interface FragmentComponent {
 
+    void inject(FloorFragment fragment);
 }

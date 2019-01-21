@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="floor"
+            type="com.lbx.library.bean.Floor" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:orientation="vertical">
+
+        <com.lbx.library.ui.view.TopBar
+            android:id="@+id/tb_floor_detailed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topBar_h" />
+
+        <com.lbx.library.ui.view.SwitchLayout
+            android:id="@+id/sl_auto_play"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <com.lbx.library.ui.view.NavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/lattice"
+            app:floor="@{floor}" />
+
+    </LinearLayout>
+
+</layout>
