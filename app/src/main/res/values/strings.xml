@@ -14,5 +14,7 @@
     <string name="guide">导览</string>
     <string name="exhibits_list">展品列表</string>
     <string name="auto_play">自动播放</string>
+    <string name="f">F</string>
+    <string name="guide_to_there">导航到这里</string>
 
 </resources>

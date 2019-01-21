@@ -32,6 +32,10 @@
             android:name=".ui.activity.FloorDetailedActivity"
             android:configChanges="keyboard|orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ExhibitsListActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
 
     </application>
 

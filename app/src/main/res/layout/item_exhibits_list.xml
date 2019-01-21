@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="exhibits"
+            type="com.lbx.library.bean.Exhibits" />
+    </data>
+
+    <com.lbx.library.ui.view.SquareLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@{exhibits.img}" />
+
+    </com.lbx.library.ui.view.SquareLinearLayout>
+
+</layout>

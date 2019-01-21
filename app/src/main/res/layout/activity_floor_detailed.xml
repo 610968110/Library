@@ -23,7 +23,7 @@
         <com.lbx.library.ui.view.SwitchLayout
             android:id="@+id/sl_auto_play"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="@dimen/guide_play_layout_h" />
 
         <com.lbx.library.ui.view.NavigationView
             android:layout_width="match_parent"

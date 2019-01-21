@@ -3,23 +3,32 @@ package com.lbx.library.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.lbx.library.R;
+import com.lbx.library.adapter.ExhibitsListAdapter;
 import com.lbx.library.base.BaseActivity;
+import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
-import com.lbx.library.databinding.ActivityFloorDetailedBinding;
+import com.lbx.library.databinding.ActivityExhibitsListBinding;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
-import com.lbx.library.ui.view.SwitchLayout;
+import com.lbx.library.ui.view.BlendImageButton;
+import com.lbx.library.ui.view.ExhibitsTitleView;
 import com.lbx.library.ui.view.TopBar;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
+import lbx.xtoollib.base.BaseDataAdapter;
 import lbx.xtoollib.phone.xLogUtil;
 
 /**
@@ -45,22 +54,28 @@ import lbx.xtoollib.phone.xLogUtil;
  * @date 2019/1/21.
  */
 
-public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.OnSwitchListener {
+public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapter.OnItemClickListener<Exhibits> {
 
-    @BindView(R.id.tb_floor_detailed)
+    @BindView(R.id.tb_exhibits)
     TopBar mTopBar;
-    @BindView(R.id.sl_auto_play)
-    SwitchLayout mPlayLayout;
-
+    @BindView(R.id.etv_title)
+    ExhibitsTitleView mListTitleView;
+    @BindView(R.id.btn_guide)
+    BlendImageButton mGuideButton;
+    @BindView(R.id.rv_exhibits)
+    RecyclerView mRecycleView;
+    @BindView(R.id.iv_exhibits)
+    ImageView mExhibitsImageView;
     private Floor mFloor;
-    private ActivityFloorDetailedBinding mBinding;
-    private boolean mAutoPlay;
+    private ActivityExhibitsListBinding mBinding;
     @Inject
     @ContextLifeCycle
     Context mContext;
+    private ArrayList<Exhibits> mList;
+    private ExhibitsListAdapter mAdapter;
 
     public static XIntent getIntent(Context context, Floor floor) {
-        XIntent intent = new XIntent(context, FloorDetailedActivity.class);
+        XIntent intent = new XIntent(context, ExhibitsListActivity.class);
         intent.putExtra("floor", floor);
         return intent;
     }
@@ -68,15 +83,15 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Override
     public void bindComponent(AppComponent appComponent) {
         mActivityComponent = DaggerActivityComponent.builder()
-                .activityModule(new ActivityModule(this))
                 .appComponent(appComponent)
+                .activityModule(new ActivityModule(this))
                 .build();
         mActivityComponent.inject(this);
     }
 
     @Override
     public int getLayoutID() {
-        return R.layout.activity_floor_detailed;
+        return R.layout.activity_exhibits_list;
     }
 
     @Override
@@ -87,33 +102,41 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
 
     @Override
     public void getDataBinding(ViewDataBinding binding) {
-        mBinding = (ActivityFloorDetailedBinding) binding;
+        mBinding = (ActivityExhibitsListBinding) binding;
     }
 
     @Override
     public void initView(View view) {
-        mTopBar.bind(this, mFloor.getName());
-        mTopBar.setLesserTitle(R.string.exhibits_list);
+        mTopBar.bind(this);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
     }
 
     @Override
     public void initData() {
         mBinding.setFloor(mFloor);
+        mList = mFloor.getExhibitsList();
+        mAdapter = new ExhibitsListAdapter(mContext, mList);
+        mRecycleView.setAdapter(mAdapter);
+        if (mList != null && !mList.isEmpty()) {
+            mExhibitsImageView.setImageResource(mList.get(0).getImg());
+        }
     }
 
     @Override
     public void initListener() {
         super.initListener();
-        mTopBar.setLesserTitleClickListener((v) -> {
-            xLogUtil.e(this, "展品列表");
-            ExhibitsListActivity.getIntent(mContext, mFloor).start();
-        });
-        mPlayLayout.setOnSwitchListener(this);
+        mGuideButton.setOnClickListener((v) -> xLogUtil.e(this, "导航到这里"));
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
-    public void onSwitch(boolean open) {
-        xLogUtil.e(this, "自动播放:" + open);
-        mAutoPlay = open;
+    public void onItemClick(RecyclerView recyclerView, int id, int position, Exhibits entity) {
+        xLogUtil.e(this, "点击了展品:" + position);
+        mExhibitsImageView.setImageResource(entity.getImg());
+    }
+
+    @Override
+    public void onItemLongClick(RecyclerView recyclerView, int id, int position, Exhibits entity) {
+
     }
 }

@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 
-import java.util.ArrayList;
-
 /**
  * .  ┏┓　　　┏┓
  * .┏┛┻━━━┛┻┓
@@ -29,44 +27,24 @@ import java.util.ArrayList;
  * @date 2019/1/21.
  */
 
-public class Floor implements Parcelable {
+public class Exhibits implements Parcelable {
 
     private final String name;
     private final String id;
     private final int floor;
-    private ArrayList<Exhibits> mExhibitsList;
     private final
     @DrawableRes
     int img;
 
-    public Floor(String id, String name, int floor, int img) {
-        this.id = id;
+    public Exhibits(String id, String name, int floor, int img) {
         this.name = name;
+        this.id = id;
         this.floor = floor;
         this.img = img;
-        mExhibitsList = new ArrayList<>();
     }
 
     public String getName() {
         return name;
-    }
-
-    public ArrayList<Exhibits> addExhibits(Exhibits exhibits) {
-        mExhibitsList.add(exhibits);
-        return mExhibitsList;
-    }
-
-    public ArrayList<Exhibits> clearExhibits() {
-        mExhibitsList.clear();
-        return mExhibitsList;
-    }
-
-    public ArrayList<Exhibits> getExhibitsList() {
-        return mExhibitsList;
-    }
-
-    public int getImg() {
-        return img;
     }
 
     public String getId() {
@@ -75,6 +53,10 @@ public class Floor implements Parcelable {
 
     public int getFloor() {
         return floor;
+    }
+
+    public int getImg() {
+        return img;
     }
 
     @Override
@@ -87,27 +69,25 @@ public class Floor implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.id);
         dest.writeInt(this.floor);
-        dest.writeTypedList(this.mExhibitsList);
         dest.writeInt(this.img);
     }
 
-    protected Floor(Parcel in) {
+    protected Exhibits(Parcel in) {
         this.name = in.readString();
         this.id = in.readString();
         this.floor = in.readInt();
-        this.mExhibitsList = in.createTypedArrayList(Exhibits.CREATOR);
         this.img = in.readInt();
     }
 
-    public static final Creator<Floor> CREATOR = new Creator<Floor>() {
+    public static final Parcelable.Creator<Exhibits> CREATOR = new Parcelable.Creator<Exhibits>() {
         @Override
-        public Floor createFromParcel(Parcel source) {
-            return new Floor(source);
+        public Exhibits createFromParcel(Parcel source) {
+            return new Exhibits(source);
         }
 
         @Override
-        public Floor[] newArray(int size) {
-            return new Floor[size];
+        public Exhibits[] newArray(int size) {
+            return new Exhibits[size];
         }
     };
 }

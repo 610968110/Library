@@ -4,6 +4,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import com.lbx.library.bean.Floor;
+import com.lbx.library.type.Floors;
 import com.lbx.library.type.LanguageType;
 
 import lbx.xtoollib.XTools;
@@ -38,7 +40,11 @@ public class Config {
     private static LanguageType LANGUAGE = LanguageType.CHINESE;
 
     public static void init() {
-
+        for (Floors f : Floors.values()) {
+            Floor floor = f.getFloor();
+            floor.clearExhibits();
+            f.addExhibits(floor);
+        }
     }
 
     public static LanguageType getLanguage() {

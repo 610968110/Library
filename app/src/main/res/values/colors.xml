@@ -6,6 +6,8 @@
 
     <color name="colorAccent2">#9C6C3E</color>
 
+    <color name="black">#FF000000</color>
+
     <!--菜单-->
     <color name="menu_line_c">#EFB3B2</color>
 

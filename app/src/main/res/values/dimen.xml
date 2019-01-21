@@ -13,8 +13,20 @@
     <dimen name="menu_header_h">190dp</dimen>
     <dimen name="menu_offset">180dp</dimen>
 
-    <!--楼层预览-->
+    <!--楼层预览/主页-->
     <dimen name="floor_item_h">150dp</dimen>
     <dimen name="floor_item_name_s">14dp</dimen>
+
+    <!--导航页/楼层详情页-->
+    <dimen name="guide_play_layout_h">50dp</dimen>
+
+    <!--展品列表-->
+    <dimen name="list_desc_h">50dp</dimen>
+    <dimen name="list_floor_text_s">24dp</dimen>
+    <dimen name="list_count_text_s">12dp</dimen>
+    <dimen name="list_guide_btn_text_s">14dp</dimen>
+    <dimen name="list_guide_btn_w">122dp</dimen>
+    <dimen name="list_guide_btn_h">33dp</dimen>
+    <dimen name="list_exhibits_list_h">80dp</dimen>
 
 </resources>

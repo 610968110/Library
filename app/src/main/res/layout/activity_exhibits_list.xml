@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="floor"
+            type="com.lbx.library.bean.Floor" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:orientation="vertical">
+
+        <com.lbx.library.ui.view.TopBar
+            android:id="@+id/tb_exhibits"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topBar_h" />
+
+        <com.lbx.library.ui.view.ExhibitsTitleView
+            android:id="@+id/etv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_desc_h"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            app:floor="@{floor}" />
+
+        <ImageView
+            android:id="@+id/iv_exhibits"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="12dp" />
+
+        <com.lbx.library.ui.view.BlendImageButton
+            android:id="@+id/btn_guide"
+            android:layout_width="@dimen/list_guide_btn_w"
+            android:layout_height="@dimen/list_guide_btn_h"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/guide_btn_bg"
+            app:image="@drawable/guide_red"
+            app:text="@string/guide_to_there" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_exhibits"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_exhibits_list_h"
+            android:layout_marginBottom="56dp"
+            android:layout_marginTop="57dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+</layout>

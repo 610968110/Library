@@ -6,6 +6,7 @@ import android.content.Context;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.ForActivity;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.ui.activity.ExhibitsListActivity;
 import com.lbx.library.ui.activity.FloorDetailedActivity;
 import com.lbx.library.ui.activity.LoginActivity;
 import com.lbx.library.ui.activity.MainActivity;
@@ -51,4 +52,6 @@ public interface ActivityComponent {
     void inject(MainActivity activity);
 
     void inject(FloorDetailedActivity activity);
+
+    void inject(ExhibitsListActivity activity);
 }
