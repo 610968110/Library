@@ -1,6 +1,8 @@
 package com.lbx.library.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -19,14 +21,15 @@ import com.lbx.library.ui.fragment.FloorFragment;
 import com.lbx.library.ui.view.TopBar;
 
 import butterknife.BindView;
-import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
+import lbx.xview.views.circular_reveal.CircularRevealUtils;
+import lbx.xview.views.circular_reveal.ICircularReveal;
 
 /**
  * @author lbx
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ICircularReveal {
 
     @BindView(R.id.nv_main)
     NavigationView mNavigationView;
@@ -36,8 +39,9 @@ public class MainActivity extends BaseActivity {
     TopBar mTopBar;
     private FragmentManager mFragmentManager;
 
-    public static XIntent getIntent(Context context) {
-        return new XIntent(context, MainActivity.class);
+    public static Intent getIntent(Context context, int x, int y) {
+        return CircularRevealUtils.ActivityCircularReveal()
+                .makeCircularRevealIntent(context, MainActivity.class, x, y);
     }
 
     @Override
@@ -61,6 +65,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(View view) {
+        CircularRevealUtils.ActivityCircularReveal().setCircularRevealAnim(this, false);
         ViewGroup.LayoutParams params = mNavigationView.getLayoutParams();
         params.width = XTools.WindowUtil().getScreenWidth() -
                 XTools.ResUtil().getDimen(R.dimen.menu_offset);
@@ -76,6 +81,16 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
 
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public View getRootView() {
+        return mDrawerLayout;
     }
 
     public void introductionToLibrary(MenuItem item) {

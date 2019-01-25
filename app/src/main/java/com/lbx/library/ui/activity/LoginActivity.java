@@ -2,6 +2,7 @@ package com.lbx.library.ui.activity;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.graphics.Rect;
 import android.view.View;
 import android.widget.Button;
 
@@ -85,9 +86,11 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_lng_japanese:
             case R.id.btn_lng_korean:
                 try {
+                    Rect rect = new Rect();
+                    v.getGlobalVisibleRect(rect);
                     //设置语言
                     Config.setLanguage(LanguageType.getTypeByLocale((Locale) v.getTag()));
-                    MainActivity.getIntent(this).start();
+                    startActivity(MainActivity.getIntent(this, rect.centerX(), rect.centerY()));
                     finish();
                 } catch (Exception ignored) {
                 }
