@@ -89,7 +89,6 @@ public class VideoActivity extends BaseActivity {
         if (isVideo) {
             String path = mExhibits.getVideoUrl();
             mVideoView.setVisibility(View.VISIBLE);
-//                String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "video.mp4";
             if (!TextUtils.isEmpty(path)) {
                 //视频
                 mVideoView.setVideoPath(path);

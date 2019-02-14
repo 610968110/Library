@@ -1,7 +1,6 @@
 package com.lbx.library.ui.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -14,7 +13,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.jakewharton.rxbinding2.widget.RxSeekBar;
 import com.lbx.library.R;
 
 import java.util.Formatter;
@@ -24,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import lbx.xtoollib.XTools;
 
 /**
@@ -51,14 +48,15 @@ import lbx.xtoollib.XTools;
  */
 
 public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedListener,
-        View.OnClickListener, Consumer<Integer>, MediaPlayer.OnCompletionListener {
+        View.OnClickListener, MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
     private VideoView mVideoView;
-    private ImageView mPlayView, mImageView;
+    private ImageView mPlayView;
     private SeekBar mSeekBar;
     private Disposable mSubscribe;
     private TextView mCurrentPositionView, mMaxDurationView;
     private boolean isCompletion;
+    private boolean userTouch;
 
     public MyVideoView(@NonNull Context context) {
         this(context, null);
@@ -75,12 +73,11 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
         mVideoView = view.findViewById(R.id.vv_main);
         mPlayView = view.findViewById(R.id.iv_play);
         mSeekBar = view.findViewById(R.id.sb_video);
-        mImageView = view.findViewById(R.id.iv_pic);
         mCurrentPositionView = view.findViewById(R.id.tv_currentPosition);
         mMaxDurationView = view.findViewById(R.id.tv_max_duration);
         mVideoView.setOnPreparedListener(this);
         mPlayView.setOnClickListener(this);
-        RxSeekBar.userChanges(mSeekBar).subscribe(this);
+        mSeekBar.setOnSeekBarChangeListener(this);
         mVideoView.setOnCompletionListener(this);
     }
 
@@ -88,6 +85,7 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer mp) {
         mp.start();
         refreshPlayButton();
+        mp.setOnSeekCompleteListener(MediaPlayer::start);
         if (mSubscribe != null) {
             mSubscribe.dispose();
             mSubscribe = null;
@@ -101,9 +99,9 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if (mVideoView != null) {
+                    if (mVideoView != null && !userTouch) {
                         refreshPlayButton();
-                        int currentPosition = mVideoView.getCurrentPosition();
+                        int currentPosition;
                         if (!isCompletion) {
                             currentPosition = mVideoView.getCurrentPosition();
                         } else {
@@ -132,17 +130,15 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
         return mVideoView.isPlaying();
     }
 
+    public boolean canPause() {
+        return mVideoView.canPause();
+    }
+
     public void setVideoPath(String path) {
         mVideoView.setVideoPath(path);
     }
 
-    public void setImg(Bitmap b) {
-        mImageView.setVisibility(VISIBLE);
-        mImageView.setImageBitmap(b);
-    }
-
     public void start() {
-        mImageView.setVisibility(INVISIBLE);
         mVideoView.start();
     }
 
@@ -175,36 +171,48 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_play:
-                if (mVideoView.isPlaying()) {
-                    mVideoView.pause();
+                if (isPlaying()) {
+                    pause();
                 } else {
                     if (isCompletion) {
                         mVideoView.seekTo(0);
                         isCompletion = false;
                     }
-                    mVideoView.start();
+                    start();
                 }
+                refreshPlayButton();
                 break;
             default:
                 break;
         }
     }
 
-    /**
-     * 拖动进度条
-     *
-     * @param integer integer
-     * @throws Exception e
-     */
-    @Override
-    public void accept(Integer integer) throws Exception {
-        isCompletion = false;
-        mVideoView.seekTo(integer);
-    }
-
     @Override
     public void onCompletion(MediaPlayer mp) {
         isCompletion = true;
         mSeekBar.setProgress(mSeekBar.getMax());
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser) {
+            if (isPlaying() && canPause()) {
+                pause();
+            }
+            mVideoView.seekTo(seekBar.getProgress());
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        isCompletion = false;
+        userTouch = true;
+        refreshPlayButton();
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        refreshPlayButton();
+        userTouch = false;
     }
 }

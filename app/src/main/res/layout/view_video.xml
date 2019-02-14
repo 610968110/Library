@@ -21,12 +21,6 @@
             android:layout_gravity="center"
             android:background="#00000000" />
 
-        <ImageView
-            android:id="@+id/iv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" />
-
     </RelativeLayout>
 
 
