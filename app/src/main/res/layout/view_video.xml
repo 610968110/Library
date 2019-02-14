@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary">
+
+        <VideoView
+            android:id="@+id/vv_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:background="#00000000" />
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_videoView_seekBar_h"
+        android:background="@color/colorPrimary">
+
+        <com.lbx.library.ui.view.SquareImageView
+            android:id="@+id/iv_play"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@drawable/play" />
+
+        <SeekBar
+            android:id="@+id/sb_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="33dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/iv_play"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:progressDrawable="@drawable/video_seekbar_bg"
+            android:thumb="@drawable/video_seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/tv_currentPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sb_video"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/iv_play"
+            android:text="@string/duration_empty"
+            android:textColor="@color/colorAccent2"
+            android:textSize="@dimen/video_videoView_seekBar_text_s" />
+
+        <TextView
+            android:id="@+id/tv_max_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/sb_video"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/duration_empty"
+            android:textColor="@color/colorAccent2"
+            android:textSize="@dimen/video_videoView_seekBar_text_s" />
+
+    </RelativeLayout>
+
+</LinearLayout>

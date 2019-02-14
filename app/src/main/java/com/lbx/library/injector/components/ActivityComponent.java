@@ -10,6 +10,7 @@ import com.lbx.library.ui.activity.ExhibitsListActivity;
 import com.lbx.library.ui.activity.FloorDetailedActivity;
 import com.lbx.library.ui.activity.LoginActivity;
 import com.lbx.library.ui.activity.MainActivity;
+import com.lbx.library.ui.activity.VideoActivity;
 
 import dagger.Component;
 
@@ -54,4 +55,6 @@ public interface ActivityComponent {
     void inject(FloorDetailedActivity activity);
 
     void inject(ExhibitsListActivity activity);
+
+    void inject(VideoActivity activity);
 }

@@ -29,4 +29,12 @@
     <dimen name="list_guide_btn_h">33dp</dimen>
     <dimen name="list_exhibits_list_h">80dp</dimen>
 
+    <!--视频播放页-->
+    <dimen name="video_videoView_h">270dp</dimen>
+    <dimen name="video_videoView_seekBar_h">65dp</dimen>
+    <dimen name="video_videoView_seekBar_text_s">12dp</dimen>
+    <dimen name="exhibit_title_text_s">20dp</dimen>
+    <dimen name="exhibit_location_text_s">14dp</dimen>
+    <dimen name="exhibit_content_text_s">14dp</dimen>
+
 </resources>

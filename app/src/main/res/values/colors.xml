@@ -11,4 +11,9 @@
     <!--菜单-->
     <color name="menu_line_c">#EFB3B2</color>
 
+    <!--视频播放页-->
+    <color name="exhibit_title_text_color">#333333</color>
+    <color name="exhibit_location_text_color">#333333</color>
+    <color name="exhibit_content_text_color">#666666</color>
+
 </resources>

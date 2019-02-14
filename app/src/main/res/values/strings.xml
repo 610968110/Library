@@ -16,5 +16,6 @@
     <string name="auto_play">自动播放</string>
     <string name="f">F</string>
     <string name="guide_to_there">导航到这里</string>
+    <string name="duration_empty">00:00</string>
 
 </resources>

@@ -34,6 +34,9 @@ public class Floor implements Parcelable {
     private final String name;
     private final String id;
     private final int floor;
+    /**
+     * 展品列表
+     */
     private ArrayList<Exhibits> mExhibitsList;
     private final
     @DrawableRes
@@ -52,6 +55,7 @@ public class Floor implements Parcelable {
     }
 
     public ArrayList<Exhibits> addExhibits(Exhibits exhibits) {
+        exhibits.setFloor(floor);
         mExhibitsList.add(exhibits);
         return mExhibitsList;
     }

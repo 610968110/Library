@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
+import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseDataAdapter;
 import lbx.xtoollib.phone.xLogUtil;
 
@@ -73,6 +74,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
     Context mContext;
     private ArrayList<Exhibits> mList;
     private ExhibitsListAdapter mAdapter;
+    private Exhibits mSelectExhibits;
 
     public static XIntent getIntent(Context context, Floor floor) {
         XIntent intent = new XIntent(context, ExhibitsListActivity.class);
@@ -118,7 +120,11 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
         mAdapter = new ExhibitsListAdapter(mContext, mList);
         mRecycleView.setAdapter(mAdapter);
         if (mList != null && !mList.isEmpty()) {
-            mExhibitsImageView.setImageResource(mList.get(0).getImg());
+            mSelectExhibits = mList.get(0);
+            mExhibitsImageView.setImageResource(mSelectExhibits.getImg());
+        } else {
+            XTools.UiUtil().showToast("展品为空");
+            finish();
         }
     }
 
@@ -127,11 +133,15 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
         super.initListener();
         mGuideButton.setOnClickListener((v) -> xLogUtil.e(this, "导航到这里"));
         mAdapter.setOnItemClickListener(this);
+        if (mSelectExhibits != null) {
+            mExhibitsImageView.setOnClickListener((v) -> VideoActivity.getIntent(this, mSelectExhibits).start());
+        }
     }
 
     @Override
     public void onItemClick(RecyclerView recyclerView, int id, int position, Exhibits entity) {
         xLogUtil.e(this, "点击了展品:" + position);
+        mSelectExhibits = entity;
         mExhibitsImageView.setImageResource(entity.getImg());
     }
 

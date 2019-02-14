@@ -1,5 +1,6 @@
 package com.lbx.library.ui.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.Rect;
@@ -19,6 +20,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
+import lbx.xtoollib.XTools;
 
 /**
  * @author lbx
@@ -60,7 +62,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView(View view) {
-
+        XTools.PermissionUtil().checkPermission(this, 0,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -91,7 +95,7 @@ public class LoginActivity extends BaseActivity {
                     //设置语言
                     Config.setLanguage(LanguageType.getTypeByLocale((Locale) v.getTag()));
                     startActivity(MainActivity.getIntent(this, rect.centerX(), rect.centerY()));
-                    finish();
+                    XTools.UiUtil().getHandlerByActivity(this).postDelayed(this::finish, 1000);
                 } catch (Exception ignored) {
                 }
                 break;
