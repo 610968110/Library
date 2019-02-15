@@ -9,12 +9,13 @@
 
         <ImageView
             android:id="@+id/iv_bar_left"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginStart="20dp"
             android:paddingBottom="15dp"
-            android:paddingTop="15dp" />
+            android:paddingTop="15dp"
+            android:scaleType="fitStart" />
 
         <TextView
             android:id="@+id/tv_bar_title"

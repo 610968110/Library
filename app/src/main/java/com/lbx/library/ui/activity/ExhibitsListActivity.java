@@ -105,6 +105,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
     @Override
     public void getDataBinding(ViewDataBinding binding) {
         mBinding = (ActivityExhibitsListBinding) binding;
+        mBinding.setPos(1);
     }
 
     @Override
@@ -143,6 +144,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
         xLogUtil.e(this, "点击了展品:" + position);
         mSelectExhibits = entity;
         mExhibitsImageView.setImageResource(entity.getImg());
+        mBinding.setPos(position + 1);
     }
 
     @Override

@@ -1,12 +1,9 @@
 package com.lbx.library.type;
 
-import android.os.Environment;
-
 import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +45,10 @@ public enum Floors {
     SECOND_FLOOR(new Floor("2", "夏商踪迹展厅", 2, R.drawable.floor_2)) {
         @Override
         public Floor addExhibits(Floor floor) {
-            Exhibits exhibits = new Exhibits("展品", "展品", R.mipmap.ic_launcher_round, R.mipmap.ic_launcher, "a", "b");
-            String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "video.mp4";
-            exhibits.setVideoUrl(path);
-            floor.addExhibits(exhibits);
+//            Exhibits exhibits = new Exhibits("展品", "展品", R.mipmap.ic_launcher_round, R.mipmap.ic_launcher, "a", "b");
+//            String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "video.mp4";
+//            exhibits.setVideoUrl(path);
+//            floor.addExhibits(exhibits);
             return floor;
         }
     },

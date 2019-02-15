@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,6 +78,8 @@ public class TopBar extends FrameLayout {
     public void bind(Activity activity, String title) {
         mLeftImageView.setImageResource(R.drawable.back);
         mLeftImageView.setOnClickListener(v -> activity.finish());
+        ViewGroup.LayoutParams layoutParams = mLeftImageView.getLayoutParams();
+        layoutParams.width = XTools.WindowUtil().dip2px(20);
         setTitle(title, Gravity.START);
     }
 

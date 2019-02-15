@@ -59,18 +59,17 @@ public class ExhibitsTitleView extends FrameLayout {
         mCountView = view.findViewById(R.id.tv_count);
     }
 
-    private void bindFloor(Floor floor) {
+    private void bindFloor(Floor floor, int selectPos) {
         mFloor = floor;
         if (floor != null) {
             mFloorView.setText(String.valueOf(floor.getFloor()));
             mFloorView.append(XTools.ResUtil().getString(R.string.f));
-            //TODO
-            mCountView.setText("1/12件展品");
+            mCountView.setText(String.format("%s/%s件展品", selectPos, floor.getExhibitsList().size()));
         }
     }
 
-    @BindingAdapter("floor")
-    public static void floor(ExhibitsTitleView view, Floor floor) {
-        view.bindFloor(floor);
+    @BindingAdapter({"floor", "selectPos"})
+    public static void floor(ExhibitsTitleView view, Floor floor, int selectPos) {
+        view.bindFloor(floor, selectPos);
     }
 }

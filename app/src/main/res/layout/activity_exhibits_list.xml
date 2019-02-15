@@ -7,12 +7,17 @@
         <variable
             name="floor"
             type="com.lbx.library.bean.Floor" />
+
+        <variable
+            name="pos"
+            type="Integer" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_bg"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <com.lbx.library.ui.view.TopBar
@@ -26,7 +31,8 @@
             android:layout_height="@dimen/list_desc_h"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
-            app:floor="@{floor}" />
+            app:floor="@{floor}"
+            app:selectPos="@{pos}" />
 
         <ImageView
             android:id="@+id/iv_exhibits"

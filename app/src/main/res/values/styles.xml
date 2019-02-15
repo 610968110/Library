@@ -11,6 +11,7 @@
     <style name="CircularRevealAnimTheme_NoTitleBar" parent="CircularRevealAnimTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

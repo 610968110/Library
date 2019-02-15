@@ -89,14 +89,14 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_lng_english:
             case R.id.btn_lng_japanese:
             case R.id.btn_lng_korean:
+                Rect rect = new Rect();
+                v.getGlobalVisibleRect(rect);
                 try {
-                    Rect rect = new Rect();
-                    v.getGlobalVisibleRect(rect);
                     //设置语言
                     Config.setLanguage(LanguageType.getTypeByLocale((Locale) v.getTag()));
-                    startActivity(MainActivity.getIntent(this, rect.centerX(), rect.centerY()));
-                    XTools.UiUtil().getHandlerByActivity(this).postDelayed(this::finish, 1000);
                 } catch (Exception ignored) {
+                } finally {
+                    startActivity(MainActivity.getIntent(this, rect.centerX(), rect.centerY()));
                 }
                 break;
             default:
