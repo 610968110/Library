@@ -8,6 +8,7 @@ import com.lbx.library.injector.ForActivity;
 import com.lbx.library.injector.modules.ActivityModule;
 import com.lbx.library.ui.activity.ExhibitsListActivity;
 import com.lbx.library.ui.activity.FloorDetailedActivity;
+import com.lbx.library.ui.activity.FriendsActivity;
 import com.lbx.library.ui.activity.LoginActivity;
 import com.lbx.library.ui.activity.MainActivity;
 import com.lbx.library.ui.activity.VideoActivity;
@@ -57,4 +58,6 @@ public interface ActivityComponent {
     void inject(ExhibitsListActivity activity);
 
     void inject(VideoActivity activity);
+
+    void inject(FriendsActivity activity);
 }

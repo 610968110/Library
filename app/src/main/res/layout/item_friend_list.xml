@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="friend"
+            type="com.lbx.library.bean.Friend" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:paddingEnd="27dp"
+        android:paddingStart="27dp">
+
+        <TextView
+            android:id="@+id/tv_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@{friend.getItemListInfo()}"
+            android:textColor="#666666"
+            android:textSize="@dimen/friends_list_item_text_s" />
+
+        <com.lbx.library.ui.view.SquareImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/delete" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#BFBFBF" />
+
+    </RelativeLayout>
+
+</layout>

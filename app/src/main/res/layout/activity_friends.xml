@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lbx.library.ui.activity.FriendsActivity">
+
+    <data>
+
+        <variable
+            name="friend"
+            type="com.lbx.library.bean.Friend" />
+
+        <variable
+            name="friendList"
+            type="java.util.List" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.lbx.library.ui.view.TopBar
+            android:id="@+id/tb_friends"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topBar_h" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/friend_card_bg"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/tv_friend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/my_friends"
+                android:textColor="@color/friends_title_text_color"
+                android:textSize="@dimen/friends_title_text_s" />
+
+            <EditText
+                android:id="@+id/et_friend_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_friend_title"
+                android:hint="请输入伙伴的设备ID"
+                android:text="@={friend.id}"
+                android:textColor="#000000"
+                android:textColorHint="@color/friends_et_text_color"
+                android:textSize="@dimen/friends_et_text_s"
+                android:theme="@style/MyEditText" />
+
+            <EditText
+                android:id="@+id/et_friend_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_friend_id"
+                android:layout_marginTop="10dp"
+                android:hint="请输入伙伴的昵称"
+                android:text="@={friend.name}"
+                android:textColor="#000000"
+                android:textColorHint="@color/friends_et_text_color"
+                android:textSize="@dimen/friends_et_text_s"
+                android:theme="@style/MyEditText" />
+
+            <Button
+                android:id="@+id/btn_friend_sure"
+                android:layout_width="@dimen/friends_btn_w"
+                android:layout_height="@dimen/friends_btn_h"
+                android:layout_below="@id/et_friend_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/add_friend_btn_bg"
+                android:text="@string/add"
+                android:textColor="@color/friends_btn_text_color"
+                android:textSize="@dimen/friends_btn_text_s" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="28dp"
+            android:text="@string/friends_list"
+            android:textColor="@color/friends_list_title_text_color"
+            android:textSize="@dimen/friends_list_title_text_s" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="27dp"
+            android:layout_marginStart="27dp"
+            android:text="@string/friend_list_desc"
+            android:textColor="@color/friends_list_desc_text_color"
+            android:textSize="@dimen/friends_list_desc_text_s"
+            android:visibility="@{friendList.size()==0?View.VISIBLE:View.GONE}" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_friends_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</layout>

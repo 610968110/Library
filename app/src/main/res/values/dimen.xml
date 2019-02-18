@@ -37,4 +37,14 @@
     <dimen name="exhibit_location_text_s">14dp</dimen>
     <dimen name="exhibit_content_text_s">14dp</dimen>
 
+    <!--我的伙伴-->
+    <dimen name="friends_title_text_s">16dp</dimen>
+    <dimen name="friends_et_text_s">14dp</dimen>
+    <dimen name="friends_btn_text_s">14dp</dimen>
+    <dimen name="friends_btn_w">95dp</dimen>
+    <dimen name="friends_btn_h">35dp</dimen>
+    <dimen name="friends_list_title_text_s">16dp</dimen>
+    <dimen name="friends_list_desc_text_s">12dp</dimen>
+    <dimen name="friends_list_item_text_s">14dp</dimen>
+
 </resources>

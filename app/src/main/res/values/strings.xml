@@ -17,5 +17,10 @@
     <string name="f">F</string>
     <string name="guide_to_there">导航到这里</string>
     <string name="duration_empty">00:00</string>
+    <string name="my_friends">我的伙伴</string>
+    <string name="friends_list">伙伴列表</string>
+    <string name="add">添加</string>
+    <string name="friend_list_desc">将你的小伙伴的导览机设备ID录入在这里，
+        录入后你就可以通过导览地图实时的看到你的小伙伴的位置\n\n设备ID可以在设备信息里面找到</string>
 
 </resources>

@@ -16,4 +16,12 @@
     <color name="exhibit_location_text_color">#333333</color>
     <color name="exhibit_content_text_color">#666666</color>
 
+    <!--我的伙伴-->
+    <color name="friends_title_text_color">#A07246</color>
+    <color name="friends_et_text_color">#C6A484</color>
+    <color name="friends_btn_text_color">#9F0303</color>
+    <color name="friends_list_title_text_color">#333333</color>
+    <color name="friends_list_desc_text_color">#9C9B9B</color>
+
+
 </resources>

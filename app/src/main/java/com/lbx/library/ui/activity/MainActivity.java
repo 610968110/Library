@@ -102,9 +102,7 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void myFriends(MenuItem item) {
         xLogUtil.e(this, "我的伙伴");
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, FloorFragment.newInstance())
-                .commitAllowingStateLoss();
+        FriendsActivity.getIntent(this).start();
     }
 
     public void guideLanguage(MenuItem item) {

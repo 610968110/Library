@@ -87,6 +87,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.appcompatVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.appcompatVersion"
     compile "com.android.support:design:$rootProject.appcompatVersion"
+    compile "com.android.support:cardview-v7:$rootProject.appcompatVersion"
     //这里注意，因为和dataBinding冲突，所以不能用apt
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.lbx:xTools:2.1.9'
