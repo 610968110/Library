@@ -27,6 +27,7 @@
             android:layout_height="@dimen/guide_play_layout_h" />
 
         <com.lbx.library.ui.view.NavigationView
+            android:id="@+id/nv_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/lattice"

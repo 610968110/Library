@@ -3,6 +3,8 @@ package com.lbx.library.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.graphics.Point;
+import android.os.Looper;
 import android.view.View;
 
 import com.lbx.library.R;
@@ -13,6 +15,7 @@ import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.ui.view.NavigationView;
 import com.lbx.library.ui.view.SwitchLayout;
 import com.lbx.library.ui.view.TopBar;
 
@@ -55,6 +58,8 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     private Floor mFloor;
     private ActivityFloorDetailedBinding mBinding;
     private boolean mAutoPlay;
+    @BindView(R.id.nv_main)
+    NavigationView mNavigationView;
     @Inject
     @ContextLifeCycle
     Context mContext;
@@ -99,6 +104,15 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Override
     public void initData() {
         mBinding.setFloor(mFloor);
+        //TODO 测试假数据
+        Looper.myQueue().addIdleHandler(() -> {
+            int w = mNavigationView.getWidth() / 2;
+            int h = mNavigationView.getHeight() / 2;
+            mNavigationView.setLocations(
+                    new Point(w + 100, h - 10),
+                    new Point(w - 250, h + 10));
+            return false;
+        });
     }
 
     @Override
