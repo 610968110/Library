@@ -15,6 +15,7 @@ import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.ui.view.TopBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,8 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
     @Inject
     @ContextLifeCycle
     Context mContext;
+    @BindView(R.id.tb_friends)
+    TopBar mTopBar;
     private Friend mFriend;
     @BindView(R.id.rv_friends_list)
     RecyclerView mRecyclerView;
@@ -89,6 +92,7 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
     @Override
     public void initView(View view) {
         mBinding.setFriendList(mList);
+        mTopBar.bind(this, XTools.ResUtil().getString(R.string.my_friends2));
     }
 
     @Override

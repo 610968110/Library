@@ -15,7 +15,7 @@
             android:id="@+id/item_myFriends"
             android:onClick="myFriends"
             android:orderInCategory="100"
-            android:title="@string/myFriends" />
+            android:title="@string/my_friends" />
     </group>
 
     <group android:id="@+id/group_guideLanguage">

@@ -69,6 +69,14 @@ public class Floor implements Parcelable {
         return mExhibitsList;
     }
 
+    public Exhibits[] getExhibitsArray() {
+        Exhibits[] es = new Exhibits[mExhibitsList.size()];
+        for (int i = 0; i < mExhibitsList.size(); i++) {
+            es[i] = mExhibitsList.get(i);
+        }
+        return es;
+    }
+
     public int getImg() {
         return img;
     }

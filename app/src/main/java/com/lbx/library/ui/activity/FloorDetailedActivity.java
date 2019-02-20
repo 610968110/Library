@@ -3,12 +3,11 @@ package com.lbx.library.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
-import android.graphics.Point;
-import android.os.Looper;
 import android.view.View;
 
 import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
+import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
 import com.lbx.library.databinding.ActivityFloorDetailedBinding;
 import com.lbx.library.injector.ContextLifeCycle;
@@ -48,7 +47,7 @@ import lbx.xtoollib.phone.xLogUtil;
  * @date 2019/1/21.
  */
 
-public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.OnSwitchListener {
+public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.OnSwitchListener, NavigationView.OnExhibitsLocationClickListener {
 
     @BindView(R.id.tb_floor_detailed)
     TopBar mTopBar;
@@ -104,15 +103,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Override
     public void initData() {
         mBinding.setFloor(mFloor);
-        //TODO 测试假数据
-        Looper.myQueue().addIdleHandler(() -> {
-            int w = mNavigationView.getWidth() / 2;
-            int h = mNavigationView.getHeight() / 2;
-            mNavigationView.setLocations(
-                    new Point(w + 100, h - 10),
-                    new Point(w - 250, h + 10));
-            return false;
-        });
+        mNavigationView.setExhibits(mFloor.getExhibitsArray());
     }
 
     @Override
@@ -123,11 +114,25 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
             ExhibitsListActivity.getIntent(mContext, mFloor).start();
         });
         mPlayLayout.setOnSwitchListener(this);
+        mNavigationView.setOnExhibitsLocationClickListener(this);
     }
 
     @Override
     public void onSwitch(boolean open) {
         xLogUtil.e(this, "自动播放:" + open);
         mAutoPlay = open;
+    }
+
+    /**
+     * 点击坐标
+     *
+     * @param floor    floor
+     * @param exhibits exhibits
+     * @param pos      pos
+     */
+    @Override
+    public void onClick(Floor floor, Exhibits exhibits, int pos) {
+        xLogUtil.e("点击了location");
+        VideoActivity.getIntent(mContext, exhibits).start();
     }
 }
