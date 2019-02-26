@@ -1,11 +1,14 @@
 package com.lbx.library.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.media.AudioManager;
+import android.net.Uri;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lbx.library.R;
@@ -22,6 +25,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
+import lbx.xtoollib.XTools;
+import lbx.xtoollib.phone.xLogUtil;
 
 /**
  * @author lbx
@@ -32,8 +37,6 @@ public class VideoActivity extends BaseActivity {
     TopBar mTopBar;
     @BindView(R.id.vv_main)
     MyVideoView mVideoView;
-    @BindView(R.id.iv_video)
-    ImageView mImageView;
     @BindView(R.id.tv_title)
     TextView mTitleView;
     @BindView(R.id.tv_content)
@@ -43,13 +46,17 @@ public class VideoActivity extends BaseActivity {
     @Inject
     @ContextLifeCycle
     Context mContext;
-    private boolean isVideo;
     private Exhibits mExhibits;
 
-    public static XIntent getIntent(Context context, Exhibits exhibits) {
-        XIntent xIntent = new XIntent(context, VideoActivity.class);
-        xIntent.putExtra("exhibits", exhibits);
-        return xIntent;
+    public static void start(Activity activity, Exhibits exhibits, View view) {
+        String name = "img";
+        if (view == null) {
+            view = new View(activity);
+            view.setTransitionName(name);
+        }
+        XIntent intent = new XIntent(activity, VideoActivity.class);
+        intent.putExtra("exhibits", exhibits);
+        XTools.ActivityUtil().startActivityWithTransition(activity, intent, new Pair<>(view, name));
     }
 
 
@@ -64,6 +71,7 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public int getLayoutID() {
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         return R.layout.activity_video_activity;
     }
 
@@ -71,7 +79,6 @@ public class VideoActivity extends BaseActivity {
     public void initIntent(Intent intent) {
         super.initIntent(intent);
         mExhibits = intent.getParcelableExtra("exhibits");
-        isVideo = !TextUtils.isEmpty(mExhibits.getVideoUrl());
     }
 
     @Override
@@ -86,20 +93,26 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (isVideo) {
-            String path = mExhibits.getVideoUrl();
-            mVideoView.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(path)) {
-                //视频
-                mVideoView.setVideoPath(path);
-            }
-        } else {
-            //图片
-            mImageView.setVisibility(View.VISIBLE);
-            mImageView.setBackgroundResource(mExhibits.getImg());
+        int playFile = mExhibits.getVoice();
+        String videoUrl = mExhibits.getVideoUrl();
+        if (playFile != -1) {
+            //音频
+            String uri = "android.resource://" + getPackageName() + "/" + playFile;
+            xLogUtil.e("音频");
+            mVideoView.setVideoUri(Uri.parse(uri), mExhibits.getImg());
+        } else if (!TextUtils.isEmpty(videoUrl)) {
+            //视频
+            xLogUtil.e("视频");
+            mVideoView.setVideoPath(videoUrl);
         }
         mTitleView.setText(mExhibits.getName());
         mLocationView.setText(mExhibits.getLocation());
         mContentView.setText(mExhibits.getContent());
+    }
+
+    @Override
+    protected void onDestroy() {
+        mVideoView.recycle();
+        super.onDestroy();
     }
 }

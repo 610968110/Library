@@ -113,22 +113,16 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void questionnaireInvestigation(MenuItem item) {
         xLogUtil.e(this, "问卷调查");
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, FloorFragment.newInstance())
-                .commitAllowingStateLoss();
+        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.questionnaireInvestigation)).start();
     }
 
     public void interactiveAnswer(MenuItem item) {
         xLogUtil.e(this, "互动答题");
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, FloorFragment.newInstance())
-                .commitAllowingStateLoss();
+        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.interactiveAnswer)).start();
     }
 
     public void deviceInformation(MenuItem item) {
         xLogUtil.e(this, "设备信息");
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, FloorFragment.newInstance())
-                .commitAllowingStateLoss();
+        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.deviceInformation)).start();
     }
 }

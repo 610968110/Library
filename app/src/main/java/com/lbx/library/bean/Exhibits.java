@@ -36,6 +36,7 @@ public class Exhibits implements Parcelable {
     private int x = -1, y = -1;
     private String content;
     private String videoUrl;
+    private int voice = -1;
     private final
     @DrawableRes
     int img;
@@ -120,6 +121,14 @@ public class Exhibits implements Parcelable {
         this.y = y;
     }
 
+    public int getVoice() {
+        return voice;
+    }
+
+    public void setVoice(int voice) {
+        this.voice = voice;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -135,6 +144,7 @@ public class Exhibits implements Parcelable {
         dest.writeInt(this.y);
         dest.writeString(this.content);
         dest.writeString(this.videoUrl);
+        dest.writeInt(this.voice);
         dest.writeInt(this.img);
         dest.writeInt(this.icon);
     }
@@ -148,6 +158,7 @@ public class Exhibits implements Parcelable {
         this.y = in.readInt();
         this.content = in.readString();
         this.videoUrl = in.readString();
+        this.voice = in.readInt();
         this.img = in.readInt();
         this.icon = in.readInt();
     }

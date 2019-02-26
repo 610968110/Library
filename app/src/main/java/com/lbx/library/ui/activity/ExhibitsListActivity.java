@@ -135,7 +135,9 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
         mGuideButton.setOnClickListener((v) -> xLogUtil.e(this, "导航到这里"));
         mAdapter.setOnItemClickListener(this);
         if (mSelectExhibits != null) {
-            mExhibitsImageView.setOnClickListener((v) -> VideoActivity.getIntent(this, mSelectExhibits).start());
+            xLogUtil.e(this, "点击大图跳入视频页");
+            mExhibitsImageView.setOnClickListener((v) ->
+                    VideoActivity.start(this, mSelectExhibits, mExhibitsImageView));
         }
     }
 

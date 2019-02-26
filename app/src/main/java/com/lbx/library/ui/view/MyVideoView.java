@@ -2,7 +2,9 @@ package com.lbx.library.ui.view;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.annotation.AttrRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -23,6 +25,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.phone.xLogUtil;
 
 /**
  * .  ┏┓　　　┏┓
@@ -53,10 +56,17 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     private VideoView mVideoView;
     private ImageView mPlayView;
     private SeekBar mSeekBar;
+    private ImageView mImageView;
     private Disposable mSubscribe;
     private TextView mCurrentPositionView, mMaxDurationView;
     private boolean isCompletion;
     private boolean userTouch;
+    private Context mContext;
+
+    private static final int VIDEO = 0x010;
+    private static final int VOICE = 0x011;
+    private static final int NULL = 0x012;
+    private static int CURRENT_PLAY_TYPE = NULL;
 
     public MyVideoView(@NonNull Context context) {
         this(context, null);
@@ -68,11 +78,13 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
 
     public MyVideoView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         View view = XTools.UiUtil().inflate(R.layout.view_video);
         addView(view);
         mVideoView = view.findViewById(R.id.vv_main);
         mPlayView = view.findViewById(R.id.iv_play);
         mSeekBar = view.findViewById(R.id.sb_video);
+        mImageView = view.findViewById(R.id.iv_video);
         mCurrentPositionView = view.findViewById(R.id.tv_currentPosition);
         mMaxDurationView = view.findViewById(R.id.tv_max_duration);
         mVideoView.setOnPreparedListener(this);
@@ -83,6 +95,10 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        xLogUtil.e("onPrepared");
+        if (CURRENT_PLAY_TYPE != VIDEO) {
+            mImageView.setVisibility(INVISIBLE);
+        }
         mp.start();
         refreshPlayButton();
         mp.setOnSeekCompleteListener(MediaPlayer::start);
@@ -99,16 +115,18 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if (mVideoView != null && !userTouch) {
-                        refreshPlayButton();
-                        int currentPosition;
-                        if (!isCompletion) {
-                            currentPosition = mVideoView.getCurrentPosition();
-                        } else {
-                            currentPosition = mSeekBar.getMax();
+                    if (CURRENT_PLAY_TYPE != NULL && !userTouch) {
+                        if (mVideoView != null) {
+                            refreshPlayButton();
+                            int currentPosition;
+                            if (!isCompletion) {
+                                currentPosition = mVideoView.getCurrentPosition();
+                            } else {
+                                currentPosition = mSeekBar.getMax();
+                            }
+                            mSeekBar.setProgress(currentPosition);
+                            mCurrentPositionView.setText(stringForTime(currentPosition));
                         }
-                        mSeekBar.setProgress(currentPosition);
-                        mCurrentPositionView.setText(stringForTime(currentPosition));
                     }
                 });
     }
@@ -134,8 +152,22 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
         return mVideoView.canPause();
     }
 
+    public void setImage(@DrawableRes int img) {
+        mImageView.setVisibility(VISIBLE);
+        mImageView.setImageResource(img);
+    }
+
     public void setVideoPath(String path) {
+        CURRENT_PLAY_TYPE = VIDEO;
         mVideoView.setVideoPath(path);
+    }
+
+    public void setVideoUri(Uri uri, int img) {
+        CURRENT_PLAY_TYPE = VOICE;
+        if (uri != null) {
+            mVideoView.setVideoURI(uri);
+        }
+        setImage(img);
     }
 
     public void start() {
@@ -214,5 +246,10 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void onStopTrackingTouch(SeekBar seekBar) {
         refreshPlayButton();
         userTouch = false;
+    }
+
+    public void recycle() {
+        pause();
+        mImageView.setVisibility(VISIBLE);
     }
 }

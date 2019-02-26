@@ -37,12 +37,16 @@ public enum Floors {
     FIRST_FLOOR(new Floor("1", "文明摇篮展厅", 1, R.drawable.floor_1)) {
         @Override
         public Floor addExhibits(Floor floor) {
-            floor.addExhibits(new Exhibits("玻璃碗", "玻璃碗", R.drawable.boliwan_f, R.drawable.boliwan, "北魏",
+            Exhibits e1 = new Exhibits("玻璃碗", "玻璃碗", R.drawable.boliwan_f, R.drawable.boliwan, "北魏",
                     "高7.5厘米，口径10.3厘米。1988年大同市南郊出土。波斯萨珊王朝饮器。外壁磨饰出纵横排列有序的椭圆形凹面，圜底，饰7个较大的圆形凹面。",
-                    centerW - 50, centerH + -140));
-            floor.addExhibits(new Exhibits("程哲碑", "程哲碑", R.drawable.chengzhebei_f, R.drawable.chengzhebei, "东魏",
+                    centerW - 50, centerH + -140);
+            e1.setVoice(R.raw.voice1);
+            Exhibits e2 = new Exhibits("程哲碑", "程哲碑", R.drawable.chengzhebei_f, R.drawable.chengzhebei, "东魏",
                     "高120厘米，宽68厘米，厚25厘米。长治市袁家漏村征集。碑圆首，碑阳正中圆拱龛内浮雕释迦坐像，方额隆颐，身形略显瘦削，厚重的袈裟下摆长长地披覆于座前。龛之内外线刻飞天、胁侍、讲经说法图及护法狮等，线条刚柔相济，飘逸飞动。碑额有东魏天平元年（534）的题记。碑阴刊有程哲发愿文，记叙程氏家族的源流功勋。这一年，北魏初分东、西，故造像中北魏晚期的余韵仍相当浓重。此碑应是带有供养佛像意味的墓碑或墓志。",
-                    centerW + 30, centerH + -120));
+                    centerW + 30, centerH + -120);
+            e2.setVoice(R.raw.voice2);
+            floor.addExhibits(e1);
+            floor.addExhibits(e2);
             return floor;
         }
     },

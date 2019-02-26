@@ -133,6 +133,6 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Override
     public void onClick(Floor floor, Exhibits exhibits, int pos) {
         xLogUtil.e("点击了location");
-        VideoActivity.getIntent(mContext, exhibits).start();
+        VideoActivity.start(this, exhibits, null);
     }
 }

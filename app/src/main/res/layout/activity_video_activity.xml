@@ -21,20 +21,11 @@
             <com.lbx.library.ui.view.MyVideoView
                 android:id="@+id/vv_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                android:layout_height="match_parent">
 
             </com.lbx.library.ui.view.MyVideoView>
 
-            <ImageView
-                android:id="@+id/iv_video"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
-
         </FrameLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
