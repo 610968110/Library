@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void questionnaireInvestigation(MenuItem item) {
         xLogUtil.e(this, "问卷调查");
-        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.questionnaireInvestigation)).start();
+        QuestionActivity.getIntent(this).start();
     }
 
     public void interactiveAnswer(MenuItem item) {

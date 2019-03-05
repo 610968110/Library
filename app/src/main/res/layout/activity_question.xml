@@ -2,14 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.lbx.library.ui.activity.IntroductionSummaryActivity">
-
-    <data>
-
-        <variable
-            name="introduction"
-            type="String" />
-    </data>
+    tools:context="com.lbx.library.ui.activity.QuestionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,17 +11,20 @@
         android:orientation="vertical">
 
         <com.lbx.library.ui.view.TopBar
-            android:id="@+id/tb_introduction"
+            android:id="@+id/tb_question"
             android:layout_width="match_parent"
             android:layout_height="@dimen/topBar_h" />
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="@{introduction}"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
+            android:layout_height="wrap_content">
+
+            <com.lbx.library.ui.view.QuestionGroup
+                android:id="@+id/ll_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
 
     </LinearLayout>
 
