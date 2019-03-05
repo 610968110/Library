@@ -11,7 +11,7 @@
 
     <!--菜单-->
     <dimen name="menu_header_h">190dp</dimen>
-    <dimen name="menu_offset">180dp</dimen>
+    <dimen name="menu_offset">150dp</dimen>
 
     <!--楼层预览/主页-->
     <dimen name="floor_item_h">150dp</dimen>

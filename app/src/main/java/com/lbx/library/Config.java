@@ -1,5 +1,6 @@
 package com.lbx.library;
 
+import android.Manifest;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -60,4 +61,12 @@ public class Config {
         DisplayMetrics dm = resources.getDisplayMetrics();
         resources.updateConfiguration(config, dm);
     }
+
+    public static String[] PERMISSION = {Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.NFC,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
 }

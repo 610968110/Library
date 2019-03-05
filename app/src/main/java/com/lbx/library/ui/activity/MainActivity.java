@@ -17,6 +17,7 @@ import com.lbx.library.base.BaseActivity;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.service.CoreService;
 import com.lbx.library.ui.fragment.FloorFragment;
 import com.lbx.library.ui.view.TopBar;
 
@@ -80,7 +81,14 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     @Override
     public void initData() {
+        super.initData();
+        CoreService.start(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        CoreService.stop(this);
+        super.onDestroy();
     }
 
     @Override
@@ -95,9 +103,7 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void introductionToLibrary(MenuItem item) {
         xLogUtil.e(this, "图书馆简介");
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, FloorFragment.newInstance())
-                .commitAllowingStateLoss();
+        IntroductionSummaryActivity.getIntent(this).start();
     }
 
     public void myFriends(MenuItem item) {

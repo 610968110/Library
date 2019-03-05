@@ -93,6 +93,7 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        super.initData();
         int playFile = mExhibits.getVoice();
         String videoUrl = mExhibits.getVideoUrl();
         if (playFile != -1) {

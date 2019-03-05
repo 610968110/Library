@@ -97,6 +97,7 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
 
     @Override
     public void initData() {
+        super.initData();
         mFriend = new Friend();
         mBinding.setFriend(mFriend);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));

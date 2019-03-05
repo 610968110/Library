@@ -43,7 +43,7 @@ public class EmptyActivity extends BaseActivity {
     @Override
     public void initIntent(Intent intent) {
         super.initIntent(intent);
-        mTitle = intent.getStringExtra("title");
+        mTitle = intent.hasExtra("title") ? intent.getStringExtra("title") : "测试";
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.lbx.library.ui.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.Rect;
@@ -62,14 +61,12 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView(View view) {
-        XTools.PermissionUtil().checkPermission(this, 0,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        XTools.PermissionUtil().checkPermission(this, 0, Config.PERMISSION);
     }
 
     @Override
     public void initData() {
-
+        super.initData();
     }
 
     @Override
