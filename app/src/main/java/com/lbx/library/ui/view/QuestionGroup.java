@@ -5,8 +5,8 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -50,8 +50,12 @@ public class QuestionGroup extends LinearLayout {
         setOrientation(VERTICAL);
         Button button = new Button(context);
         button.setText("提  交");
-        addView(button, 0, new ViewGroup.LayoutParams(XTools.WindowUtil().dip2px(168),
-                XTools.WindowUtil().dip2px(38)));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(XTools.WindowUtil().dip2px(168),
+                XTools.WindowUtil().dip2px(43));
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        params.topMargin = XTools.WindowUtil().dip2px(45);
+        params.bottomMargin = XTools.WindowUtil().dip2px(95);
+        addView(button, 0, params);
         button.setOnClickListener(v -> {
             if (mOnSureClickListener != null) {
                 boolean all = true;
