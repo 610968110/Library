@@ -103,6 +103,8 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.lbx:xView:1.0.2'
+    compile 'org.altbeacon:android-beacon-library:2.16.1'
+    compile 'com.github.a1anwang:okble:1.1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.17'

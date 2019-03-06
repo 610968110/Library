@@ -7,6 +7,13 @@ import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerAppComponent;
 import com.lbx.library.injector.modules.AppModule;
 
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
+import org.altbeacon.beacon.startup.BootstrapNotifier;
+import org.altbeacon.beacon.startup.RegionBootstrap;
+
 import lbx.xtoollib.XTools;
 
 import static lbx.xtoollib.phone.xLogUtil.LEVEL_NONE;
@@ -35,7 +42,7 @@ import static lbx.xtoollib.phone.xLogUtil.LEVEL_VERBOSE;
  * @date 2019/1/14.
  */
 
-public class App extends Application {
+public class App extends Application implements BootstrapNotifier {
 
     private Context mContext;
     private AppComponent mAppComponent;
@@ -64,9 +71,31 @@ public class App extends Application {
                 .appModule(new AppModule(this))
                 .build();
         mAppComponent.inject(this);
+        BeaconManager beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser()
+                .setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+        Region region = new Region("all-region-beacon", null, null, null);
+        RegionBootstrap regionBootstrap = new RegionBootstrap(this, region);
+        BackgroundPowerSaver backgroundPowerSaver = new BackgroundPowerSaver(this);
     }
 
     public AppComponent getAppComponent() {
         return mAppComponent;
+    }
+
+    @Override
+    public void didEnterRegion(Region region) {
+
+    }
+
+    @Override
+    public void didExitRegion(Region region) {
+
+    }
+
+    @Override
+    public void didDetermineStateForRegion(int i, Region region) {
+
     }
 }

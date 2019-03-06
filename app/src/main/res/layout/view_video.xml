@@ -34,7 +34,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/video_videoView_seekBar_h"
-        android:background="@color/colorPrimary">
+        android:background="#E9E1D4">
 
         <com.lbx.library.ui.view.SquareImageView
             android:id="@+id/iv_play"

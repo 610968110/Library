@@ -102,6 +102,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
 
     @Override
     public void initData() {
+        super.initData();
         mBinding.setFloor(mFloor);
         mNavigationView.setExhibits(mFloor.getExhibitsArray());
     }

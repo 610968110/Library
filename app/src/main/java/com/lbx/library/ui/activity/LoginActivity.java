@@ -13,6 +13,7 @@ import com.lbx.library.databinding.ActivityLoginBinding;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.service.CoreService;
 import com.lbx.library.type.LanguageType;
 
 import java.util.Locale;
@@ -76,6 +77,7 @@ public class LoginActivity extends BaseActivity {
         mBtnLngEnglish.setOnClickListener(this);
         mBtnLngJapanese.setOnClickListener(this);
         mBtnLngKorean.setOnClickListener(this);
+        CoreService.start(this);
     }
 
     @Override

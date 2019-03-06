@@ -9,11 +9,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Looper;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
@@ -52,6 +54,7 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
     private int mBitmapW = 50;
     private int mBitmapH;
     private Rect[] rects;
+    private Context mContext;
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -66,13 +69,23 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.location_zp);
         mBitmap = XTools.BitmapUtil().zoomBmp(bitmap, mBitmapW);
         mBitmapH = mBitmap.getHeight();
+        mContext = context;
     }
 
     public void setFloor(Floor floor) {
         mFloor = floor;
         if (floor != null) {
             int img = floor.getImg();
-            setImageResource(img);
+            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), img);
+            Looper.myQueue().addIdleHandler(() -> {
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                layoutParams.width = width;
+                layoutParams.height = height;
+                setImageBitmap(bitmap);
+                return false;
+            });
         }
     }
 
