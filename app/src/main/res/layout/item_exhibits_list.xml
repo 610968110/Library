@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@{exhibits.icon}" />
+            android:src="@{exhibits.smallImage}" />
 
     </com.lbx.library.ui.view.SquareLinearLayout>
 

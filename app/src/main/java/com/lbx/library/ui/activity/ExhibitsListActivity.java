@@ -122,7 +122,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
         mRecycleView.setAdapter(mAdapter);
         if (mList != null && !mList.isEmpty()) {
             mSelectExhibits = mList.get(0);
-            mExhibitsImageView.setImageResource(mSelectExhibits.getImg());
+            mExhibitsImageView.setImageResource(mSelectExhibits.getBigImage());
         } else {
             XTools.UiUtil().showToast("展品为空");
             finish();
@@ -145,7 +145,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
     public void onItemClick(RecyclerView recyclerView, int id, int position, Exhibits entity) {
         xLogUtil.e(this, "点击了展品:" + position);
         mSelectExhibits = entity;
-        mExhibitsImageView.setImageResource(entity.getImg());
+        mExhibitsImageView.setImageResource(entity.getBigImage());
         mBinding.setPos(position + 1);
     }
 

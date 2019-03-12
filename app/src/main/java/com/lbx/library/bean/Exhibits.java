@@ -1,5 +1,7 @@
 package com.lbx.library.bean;
 
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
@@ -35,30 +37,34 @@ public class Exhibits implements Parcelable {
     private String location;
     private int x = -1, y = -1;
     private String content;
-    private String videoUrl;
-    private int voice = -1;
     private final
     @DrawableRes
-    int img;
+    int bigImage;
+    private final
     @DrawableRes
-    int icon;
+    int smallImage;
+    private String voice;
+    private String video;
+    private boolean isPlaying;
+    private Point point;
+    private Rect rect;
 
-    public Exhibits(String id, String name, @DrawableRes int icon,
-                    @DrawableRes int img, String location, String content) {
+    public Exhibits(String id, String name, @DrawableRes int smallImage,
+                    @DrawableRes int bigImage, String location, String content) {
         this.name = name;
         this.id = id;
-        this.icon = icon;
-        this.img = img;
+        this.smallImage = smallImage;
+        this.bigImage = bigImage;
         this.location = location;
         this.content = content;
     }
 
-    public Exhibits(String id, String name, @DrawableRes int icon,
-                    @DrawableRes int img, String location, String content, int x, int y) {
+    public Exhibits(String id, String name, @DrawableRes int smallImage,
+                    @DrawableRes int bigImage, String location, String content, int x, int y) {
         this.name = name;
         this.id = id;
-        this.icon = icon;
-        this.img = img;
+        this.smallImage = smallImage;
+        this.bigImage = bigImage;
         this.location = location;
         this.content = content;
         this.x = x;
@@ -81,8 +87,8 @@ public class Exhibits implements Parcelable {
         this.floor = floor;
     }
 
-    public int getImg() {
-        return img;
+    public int getBigImage() {
+        return bigImage;
     }
 
     public String getLocation() {
@@ -90,15 +96,11 @@ public class Exhibits implements Parcelable {
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        return video;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public int getIcon() {
-        return icon;
+    public int getSmallImage() {
+        return smallImage;
     }
 
     public String getContent() {
@@ -121,12 +123,44 @@ public class Exhibits implements Parcelable {
         this.y = y;
     }
 
-    public int getVoice() {
+    public String getVoice() {
         return voice;
     }
 
-    public void setVoice(int voice) {
+    public void setVoice(String voice) {
         this.voice = voice;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public Rect getRect() {
+        return rect;
+    }
+
+    public void setRect(Rect rect) {
+        this.rect = rect;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+    public Point getPoint() {
+        return point;
     }
 
     @Override
@@ -143,10 +177,11 @@ public class Exhibits implements Parcelable {
         dest.writeInt(this.x);
         dest.writeInt(this.y);
         dest.writeString(this.content);
-        dest.writeString(this.videoUrl);
-        dest.writeInt(this.voice);
-        dest.writeInt(this.img);
-        dest.writeInt(this.icon);
+        dest.writeInt(this.bigImage);
+        dest.writeInt(this.smallImage);
+        dest.writeString(this.voice);
+        dest.writeString(this.video);
+        dest.writeByte(this.isPlaying ? (byte) 1 : (byte) 0);
     }
 
     protected Exhibits(Parcel in) {
@@ -157,10 +192,11 @@ public class Exhibits implements Parcelable {
         this.x = in.readInt();
         this.y = in.readInt();
         this.content = in.readString();
-        this.videoUrl = in.readString();
-        this.voice = in.readInt();
-        this.img = in.readInt();
-        this.icon = in.readInt();
+        this.bigImage = in.readInt();
+        this.smallImage = in.readInt();
+        this.voice = in.readString();
+        this.video = in.readString();
+        this.isPlaying = in.readByte() != 0;
     }
 
     public static final Creator<Exhibits> CREATOR = new Creator<Exhibits>() {

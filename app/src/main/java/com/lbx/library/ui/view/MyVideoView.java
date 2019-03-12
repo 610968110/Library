@@ -62,11 +62,8 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     private boolean isCompletion;
     private boolean userTouch;
     private Context mContext;
-
-    private static final int VIDEO = 0x010;
-    private static final int VOICE = 0x011;
-    private static final int NULL = 0x012;
-    private static int CURRENT_PLAY_TYPE = NULL;
+    private MediaPlayer mMediaPlayer;
+    private boolean isPrepared;
 
     public MyVideoView(@NonNull Context context) {
         this(context, null);
@@ -96,12 +93,18 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     @Override
     public void onPrepared(MediaPlayer mp) {
         xLogUtil.e("onPrepared");
-        if (CURRENT_PLAY_TYPE != VIDEO) {
-            mImageView.setVisibility(INVISIBLE);
+        isPrepared = true;
+        mMediaPlayer = mp;
+        if (l != null) {
+            l.onVideoPrepared();
         }
-        mp.start();
+    }
+
+    public void startWhenPrepared() {
+        mImageView.setVisibility(INVISIBLE);
+        mMediaPlayer.start();
         refreshPlayButton();
-        mp.setOnSeekCompleteListener(MediaPlayer::start);
+        mMediaPlayer.setOnSeekCompleteListener(MediaPlayer::start);
         if (mSubscribe != null) {
             mSubscribe.dispose();
             mSubscribe = null;
@@ -115,7 +118,7 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if (CURRENT_PLAY_TYPE != NULL && !userTouch) {
+                    if (!userTouch) {
                         if (mVideoView != null) {
                             refreshPlayButton();
                             int currentPosition;
@@ -158,12 +161,11 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     }
 
     public void setVideoPath(String path) {
-        CURRENT_PLAY_TYPE = VIDEO;
         mVideoView.setVideoPath(path);
+        mImageView.setVisibility(INVISIBLE);
     }
 
     public void setVideoUri(Uri uri, int img) {
-        CURRENT_PLAY_TYPE = VOICE;
         if (uri != null) {
             mVideoView.setVideoURI(uri);
         }
@@ -172,10 +174,20 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
 
     public void start() {
         mVideoView.start();
+        if (l != null) {
+            l.onVideoPlay();
+        }
     }
 
     public void pause() {
         mVideoView.pause();
+        if (l != null) {
+            l.onVideoPause();
+        }
+    }
+
+    public boolean isPrepared() {
+        return isPrepared;
     }
 
     /**
@@ -209,6 +221,9 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
                     if (isCompletion) {
                         mVideoView.seekTo(0);
                         isCompletion = false;
+                        if (l != null) {
+                            l.onVideoRePlay();
+                        }
                     }
                     start();
                 }
@@ -223,15 +238,25 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void onCompletion(MediaPlayer mp) {
         isCompletion = true;
         mSeekBar.setProgress(mSeekBar.getMax());
+        if (l != null) {
+            l.onVideoCompletion();
+        }
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            if (isPlaying() && canPause()) {
-                pause();
-            }
-            mVideoView.seekTo(seekBar.getProgress());
+            seekTo(progress);
+        }
+    }
+
+    public void seekTo(int progress) {
+        if (isPlaying() && canPause()) {
+            pause();
+        }
+        mVideoView.seekTo(progress);
+        if (l != null) {
+            l.onVideoSeekTo(progress);
         }
     }
 
@@ -251,5 +276,25 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void recycle() {
         pause();
         mImageView.setVisibility(VISIBLE);
+    }
+
+    public interface OnPlayListener {
+        void onVideoSeekTo(int progress);
+
+        void onVideoPrepared();
+
+        void onVideoPlay();
+
+        void onVideoPause();
+
+        void onVideoCompletion();
+
+        void onVideoRePlay();
+    }
+
+    private OnPlayListener l;
+
+    public void setOnPlayListener(OnPlayListener l) {
+        this.l = l;
     }
 }

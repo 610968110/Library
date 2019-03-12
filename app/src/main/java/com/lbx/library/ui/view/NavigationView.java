@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 
 import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
@@ -49,12 +48,11 @@ import lbx.xtoollib.XTools;
 public class NavigationView extends android.support.v7.widget.AppCompatImageView {
 
     private Floor mFloor;
-    private Bitmap mBitmap;
-    private Point[] mPoints;
+    private Bitmap mBitmap, mSelectBitmap, mUserBitmap;
     private int mBitmapW = 50;
     private int mBitmapH;
-    private Rect[] rects;
     private Context mContext;
+    private Exhibits[] exhibits;
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -66,8 +64,15 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
 
     public NavigationView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.location_zp);
-        mBitmap = XTools.BitmapUtil().zoomBmp(bitmap, mBitmapW);
+        mBitmap = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.location_zp), mBitmapW);
+        mSelectBitmap = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.location_zp_playing), mBitmapW);
+        mUserBitmap = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.location_friend), mBitmapW);
         mBitmapH = mBitmap.getHeight();
         mContext = context;
     }
@@ -80,9 +85,9 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
             Looper.myQueue().addIdleHandler(() -> {
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
-                ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                layoutParams.width = width;
-                layoutParams.height = height;
+//                ViewGroup.LayoutParams layoutParams = getLayoutParams();
+//                layoutParams.width = width;
+//                layoutParams.height = height;
                 setImageBitmap(bitmap);
                 return false;
             });
@@ -90,12 +95,11 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
     }
 
     public void setExhibits(Exhibits... exhibits) {
+        this.exhibits = exhibits;
         int size = exhibits == null ? 0 : exhibits.length;
-        mPoints = new Point[size];
         for (int i = 0; i < size; i++) {
-            mPoints[i] = new Point(exhibits[i].getX(), exhibits[i].getY());
+            exhibits[i].setPoint(new Point(exhibits[i].getX(), exhibits[i].getY()));
         }
-        rects = new Rect[size];
         invalidate();
     }
 
@@ -105,13 +109,13 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(5);
         canvas.drawPoint(point.x, point.y, paint);
-        if (mPoints != null && mPoints.length > 0) {
-            for (int i = 0; i < mPoints.length; i++) {
-                Point point = mPoints[i];
+        if (exhibits != null && exhibits.length > 0) {
+            for (Exhibits exhibit : exhibits) {
+                Point point = exhibit.getPoint();
                 int left = point.x - mBitmapW / 2;
                 int top = point.y - mBitmapH;
-                canvas.drawBitmap(mBitmap, left, top, null);
-                rects[i] = getRect(left, top);
+                canvas.drawBitmap(exhibit.isPlaying()?mSelectBitmap:mBitmap, left, top, null);
+                exhibit.setRect(getRect(left, top));
             }
         }
     }
@@ -128,13 +132,13 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                if (rects != null) {
+                if (exhibits != null) {
                     int x = (int) event.getX();
                     int y = (int) event.getY();
                     point.x = x;
                     point.y = y;
-                    for (int i = 0; i < rects.length; i++) {
-                        if (rects[i].contains(x, y)) {
+                    for (int i = 0; i < exhibits.length; i++) {
+                        if (exhibits[i].getRect().contains(x, y)) {
                             if (mOnExhibitsLocationClickListener != null) {
                                 mOnExhibitsLocationClickListener.onClick(mFloor, mFloor.getExhibitsList().get(i), i);
                             }

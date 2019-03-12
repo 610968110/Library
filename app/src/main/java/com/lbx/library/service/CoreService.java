@@ -130,7 +130,7 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         List<Beacon> list = new ArrayList<>();
         list.addAll(collection);
-        xLogUtil.e("didRangeBeaconsInRegion:" + list.size());
+//        xLogUtil.e("didRangeBeaconsInRegion:" + list.size());
         int i = 0;
         for (Beacon b : list) {
             String uuid = b.getId1().toString();

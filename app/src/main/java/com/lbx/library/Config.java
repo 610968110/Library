@@ -1,6 +1,7 @@
 package com.lbx.library;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -41,6 +42,11 @@ public class Config {
     private static LanguageType LANGUAGE = LanguageType.CHINESE;
 
     public static void init() {
+        Context context = XTools.getApplicationContext();
+        XTools.FileUtil().getCopyFileUtils()
+                .copyRawFile2FilesDir(context, R.raw.test_video, "test_video.mp4");
+        XTools.FileUtil().getCopyFileUtils()
+                .copyRawFile2FilesDir(context, R.raw.test_voice, "test_voice.m4a");
         for (Floors f : Floors.values()) {
             Floor floor = f.getFloor();
             floor.clearExhibits();

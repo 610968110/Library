@@ -108,4 +108,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+//    compile('com.google.android.exoplayer:exoplayer:2.9.6') {
+//        exclude(module: "support-annotations")
+//        exclude(module: "support-media-compat")
+//    }
 }

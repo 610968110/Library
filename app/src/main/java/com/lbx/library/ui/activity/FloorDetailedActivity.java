@@ -14,6 +14,7 @@ import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.service.VoiceService;
 import com.lbx.library.ui.view.NavigationView;
 import com.lbx.library.ui.view.SwitchLayout;
 import com.lbx.library.ui.view.TopBar;
@@ -62,6 +63,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Inject
     @ContextLifeCycle
     Context mContext;
+    private Exhibits[] mExhibitsArray;
 
     public static XIntent getIntent(Context context, Floor floor) {
         XIntent intent = new XIntent(context, FloorDetailedActivity.class);
@@ -104,7 +106,8 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     public void initData() {
         super.initData();
         mBinding.setFloor(mFloor);
-        mNavigationView.setExhibits(mFloor.getExhibitsArray());
+        mExhibitsArray = mFloor.getExhibitsArray();
+        mNavigationView.setExhibits(mExhibitsArray);
     }
 
     @Override
@@ -135,5 +138,16 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     public void onClick(Floor floor, Exhibits exhibits, int pos) {
         xLogUtil.e("点击了location");
         VideoActivity.start(this, exhibits, null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (VoiceService.PLAYING_EXHIBITS != null) {
+            for (Exhibits e : mExhibitsArray) {
+                e.setPlaying(VoiceService.PLAYING_EXHIBITS.getId().equals(e.getId()));
+            }
+        }
+        mNavigationView.invalidate();
     }
 }
