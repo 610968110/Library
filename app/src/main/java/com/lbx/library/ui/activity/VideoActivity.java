@@ -1,13 +1,11 @@
 package com.lbx.library.ui.activity;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.databinding.ViewDataBinding;
 import android.media.AudioManager;
-import android.os.IBinder;
+import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.View;
@@ -101,46 +99,44 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
         mTitleView.setText(mExhibits.getName());
         mLocationView.setText(mExhibits.getLocation());
         mContentView.setText(mExhibits.getContent());
-        VoiceService.bindService(this).bindService(mConnection);
     }
 
     @Override
     public void initListener() {
         super.initListener();
         mVideoView.setOnPlayListener(this);
+        new Handler().postDelayed(() -> VoiceService.stop(this), 5000);
     }
 
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mVoiceService = ((VoiceService.MyBinder) service).getService();
-            mVoiceService.setOnVoicePlayListener(VideoActivity.this);
-            mVideoView.setImage(mExhibits.getBigImage());
-            String video = mExhibits.getVideo();
-            if (!TextUtils.isEmpty(video)) {
-                //视频
-                mVideoView.setVideoPath(video);
-            }
-            //如果正在播放
-            if (VoiceService.PLAYING_EXHIBITS != null) {
-                //正在播放不是同一个文件
-                if (!VoiceService.PLAYING_EXHIBITS.getId().equals(mExhibits.getId())) {
-                    mVoiceService.pause();
-                    mVoiceService.playVoice(mExhibits);
-                } else {
-                    //同一个文件
-                    mVideoView.seekTo(mVoiceService.getCurrentPosition());
-                }
+    @Override
+    public void onServiceConnected(VoiceService service) {
+        super.onServiceConnected(service);
+        mVoiceService = service;
+        mVideoView.setImage(mExhibits.getBigImage());
+        String video = mExhibits.getVideo();
+        if (!TextUtils.isEmpty(video)) {
+            //视频
+            mVideoView.setVideoPath(video);
+        }
+        //如果正在播放
+        if (VoiceService.PLAYING_EXHIBITS != null) {
+            //正在播放不是同一个文件
+            if (!VoiceService.PLAYING_EXHIBITS.getId().equals(mExhibits.getId())) {
+                mVoiceService.pause();
+                mVoiceService.setExhibits(mExhibits);
             } else {
-                mVoiceService.playVoice(mExhibits);
+                //同一个文件
+                mVideoView.seekTo(mVoiceService.getCurrentPosition());
             }
+        } else {
+            mVoiceService.setExhibits(mExhibits);
         }
+    }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mVoiceService = null;
-        }
-    };
+    @Override
+    public void onServiceDisconnected() {
+        super.onServiceDisconnected();
+    }
 
     @Override
     protected void onDestroy() {

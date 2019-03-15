@@ -6,6 +6,7 @@ import android.content.Context;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerAppComponent;
 import com.lbx.library.injector.modules.AppModule;
+import com.lbx.library.service.VoiceService;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -78,6 +79,7 @@ public class App extends Application implements BootstrapNotifier {
         Region region = new Region("all-region-beacon", null, null, null);
         RegionBootstrap regionBootstrap = new RegionBootstrap(this, region);
         BackgroundPowerSaver backgroundPowerSaver = new BackgroundPowerSaver(this);
+        VoiceService.start(this);
     }
 
     public AppComponent getAppComponent() {

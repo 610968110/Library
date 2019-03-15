@@ -9,15 +9,18 @@ import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
+import com.lbx.library.bean.event.PlayingVoiceBean;
 import com.lbx.library.databinding.ActivityFloorDetailedBinding;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
-import com.lbx.library.service.VoiceService;
 import com.lbx.library.ui.view.NavigationView;
 import com.lbx.library.ui.view.SwitchLayout;
 import com.lbx.library.ui.view.TopBar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
@@ -98,6 +101,9 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
 
     @Override
     public void initView(View view) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         mTopBar.bind(this, mFloor.getName());
         mTopBar.setLesserTitle(R.string.exhibits_list);
     }
@@ -140,14 +146,23 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         VideoActivity.start(this, exhibits, null);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (VoiceService.PLAYING_EXHIBITS != null) {
-            for (Exhibits e : mExhibitsArray) {
-                e.setPlaying(VoiceService.PLAYING_EXHIBITS.getId().equals(e.getId()));
-            }
+    private void playLogo(Exhibits exhibits) {
+        for (Exhibits e : mExhibitsArray) {
+            e.setPlaying(exhibits != null && exhibits.getId().equals(e.getId()));
         }
         mNavigationView.invalidate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void playLogo(PlayingVoiceBean bean) {
+        playLogo(bean.getExhibits());
     }
 }

@@ -10,6 +10,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.lbx.library.bean.Exhibits;
+import com.lbx.library.bean.event.PlayingVoiceBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
@@ -45,7 +48,15 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     private boolean isPrepared;
     public static Exhibits PLAYING_EXHIBITS;
 
-    public static XIntent bindService(Context context) {
+    public static void start(Context context) {
+        context.startService(new XIntent(context, VoiceService.class));
+    }
+
+    public static void stop(Context context) {
+        context.stopService(new XIntent(context, VoiceService.class));
+    }
+
+    public static XIntent getIntent(Context context) {
         return new XIntent(context, VoiceService.class);
     }
 
@@ -74,9 +85,23 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onCreate() {
         super.onCreate();
+        initMediaPlayer();
+    }
+
+    private void initMediaPlayer() {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setLooping(false);
         mMediaPlayer.setOnPreparedListener(this);
+    }
+
+    private void recycleMediaPlayer() {
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.pause();
+            }
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     @Override
@@ -87,11 +112,15 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
         }
     }
 
-    public void playVoice(Exhibits exhibits) {
+    public void setExhibits(Exhibits exhibits) {
         PLAYING_EXHIBITS = exhibits;
         String voice = exhibits.getVoice();
         xLogUtil.e("音频:" + voice);
         try {
+            if (mMediaPlayer.isPlaying()) {
+                recycleMediaPlayer();
+            }
+            initMediaPlayer();
             mMediaPlayer.setDataSource(voice);
             mMediaPlayer.prepare();
         } catch (IOException e) {
@@ -101,7 +130,6 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
             if (mOnVoicePlayListener != null) {
                 mOnVoicePlayListener.onVoicePrepared(true);
             }
-            stopSelf();
         }
     }
 
@@ -125,10 +153,12 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
 
     public void play() {
         mMediaPlayer.start();
+        EventBus.getDefault().post(new PlayingVoiceBean(PLAYING_EXHIBITS));
     }
 
     public void pause() {
         mMediaPlayer.pause();
+        EventBus.getDefault().post(new PlayingVoiceBean(null));
     }
 
     public int getCurrentPosition() {
@@ -146,6 +176,7 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onDestroy() {
         PLAYING_EXHIBITS = null;
+        EventBus.getDefault().post(new PlayingVoiceBean(null));
         super.onDestroy();
     }
 }
