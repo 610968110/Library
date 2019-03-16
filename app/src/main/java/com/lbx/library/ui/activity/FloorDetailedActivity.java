@@ -15,6 +15,8 @@ import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.service.VoiceService;
+import com.lbx.library.ui.view.MyToastView;
 import com.lbx.library.ui.view.NavigationView;
 import com.lbx.library.ui.view.SwitchLayout;
 import com.lbx.library.ui.view.TopBar;
@@ -63,10 +65,14 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     private boolean mAutoPlay;
     @BindView(R.id.nv_main)
     NavigationView mNavigationView;
+    @BindView(R.id.mtv_voice)
+    MyToastView mVoiceView;
     @Inject
     @ContextLifeCycle
     Context mContext;
+    private VoiceService mVoiceService;
     private Exhibits[] mExhibitsArray;
+    private Exhibits mPlayingExhibits;
 
     public static XIntent getIntent(Context context, Floor floor) {
         XIntent intent = new XIntent(context, FloorDetailedActivity.class);
@@ -114,6 +120,10 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         mBinding.setFloor(mFloor);
         mExhibitsArray = mFloor.getExhibitsArray();
         mNavigationView.setExhibits(mExhibitsArray);
+        mPlayingExhibits = VoiceService.PLAYING_EXHIBITS;
+        if (mPlayingExhibits != null) {
+            playLogo(mPlayingExhibits);
+        }
     }
 
     @Override
@@ -150,7 +160,28 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         for (Exhibits e : mExhibitsArray) {
             e.setPlaying(exhibits != null && exhibits.getId().equals(e.getId()));
         }
-        mNavigationView.invalidate();
+        mNavigationView.refreshImageState();
+        playToast(exhibits);
+    }
+
+    private void playToast(Exhibits exhibits) {
+        if (exhibits != null) {
+            mVoiceView.setText1("正在讲解：" + exhibits.getName());
+            mVoiceView.setText2("关闭", v -> {
+                if (mVoiceService != null) {
+                    mVoiceService.pause();
+                }
+            });
+            mVoiceView.setVisibility(View.VISIBLE);
+        } else {
+            mVoiceView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onServiceConnected(VoiceService service) {
+        super.onServiceConnected(service);
+        mVoiceService = service;
     }
 
     @Override

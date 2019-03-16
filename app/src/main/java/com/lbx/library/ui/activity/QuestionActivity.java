@@ -73,6 +73,11 @@ public class QuestionActivity extends BaseActivity implements QuestionGroup.OnSu
     }
 
     @Override
+    public void initData() {
+        super.initData();
+    }
+
+    @Override
     public void initListener() {
         super.initListener();
         mQuestionGroup.setOnSureClickListener(this);

@@ -141,7 +141,14 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
     @Override
     protected void onDestroy() {
         mVideoView.recycle();
+        if (mVoiceService != null) {
+            mVoiceService.recycle();
+        }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
     }
 
     @Override
@@ -159,6 +166,7 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
     public void onVideoPrepared() {
         xLogUtil.e("onVideoPrepared:" + mVideoView.isPrepared() + "  " + mVoiceService.isPrepared());
         if (mVoiceService != null && mVoiceService.isPrepared()) {
+            mVoiceService.seekTo(0);
             playVideoWithVoice();
         }
     }
@@ -193,6 +201,7 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
 
     @Override
     public void onVoicePrepared(boolean noVoice) {
+        xLogUtil.e("mVideoView:" + mVideoView);
         xLogUtil.e("onVoicePrepared:" + mVideoView.isPrepared() + "  " + mVoiceService.isPrepared());
         if (mVoiceService != null) {
             mVoiceService.seekTo(0);

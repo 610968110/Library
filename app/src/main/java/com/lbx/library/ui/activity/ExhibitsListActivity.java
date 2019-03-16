@@ -116,6 +116,7 @@ public class ExhibitsListActivity extends BaseActivity implements BaseDataAdapte
 
     @Override
     public void initData() {
+        super.initData();
         mBinding.setFloor(mFloor);
         mList = mFloor.getExhibitsList();
         mAdapter = new ExhibitsListAdapter(mContext, mList);

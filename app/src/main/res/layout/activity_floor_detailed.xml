@@ -9,12 +9,11 @@
             type="com.lbx.library.bean.Floor" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_bg"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
         <com.lbx.library.ui.view.TopBar
             android:id="@+id/tb_floor_detailed"
@@ -24,16 +23,30 @@
         <com.lbx.library.ui.view.SwitchLayout
             android:id="@+id/sl_auto_play"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/guide_play_layout_h" />
+            android:layout_height="@dimen/guide_play_layout_h"
+            android:layout_below="@id/tb_floor_detailed" />
 
         <com.lbx.library.ui.view.NavigationView
             android:id="@+id/nv_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/sl_auto_play"
             android:layout_gravity="center"
             android:background="@drawable/lattice"
             app:floor="@{floor}" />
 
-    </LinearLayout>
+        <com.lbx.library.ui.view.MyToastView
+            android:id="@+id/mtv_voice"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="34dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/voice_toast_bg"
+            android:visibility="gone"
+            app:MyToastView_textColor="#EBD4BD" />
+
+    </RelativeLayout>
 
 </layout>

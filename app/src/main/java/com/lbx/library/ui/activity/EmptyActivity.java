@@ -58,6 +58,7 @@ public class EmptyActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        super.initData();
         mBinding.setTitle(mTitle);
     }
 }

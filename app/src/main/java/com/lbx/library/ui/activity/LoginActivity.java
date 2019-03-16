@@ -1,6 +1,7 @@
 package com.lbx.library.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Rect;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.lbx.library.databinding.ActivityLoginBinding;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.service.VoiceService;
 import com.lbx.library.type.LanguageType;
 
 import java.util.Locale;
@@ -67,6 +69,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
+        VoiceService.stop(this);
+    }
+
+    @Override
+    public boolean connectService() {
+        return false;
     }
 
     @Override
@@ -94,10 +102,15 @@ public class LoginActivity extends BaseActivity {
                 } catch (Exception ignored) {
                 } finally {
                     startActivity(MainActivity.getIntent(this, rect.centerX(), rect.centerY()));
+                    VoiceService.start(this);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
     }
 }

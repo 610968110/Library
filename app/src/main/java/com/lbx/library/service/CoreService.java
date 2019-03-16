@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
 
 import static org.altbeacon.beacon.BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD;
@@ -87,16 +88,19 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
         }
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         BluetoothManager mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter adapter = mBluetoothManager.getAdapter();
         if (adapter == null || !adapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            enableBtIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(enableBtIntent);
+            try {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                enableBtIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(enableBtIntent);
+            } catch (Exception e) {
+                XTools.UiUtil().toastInUI("请您手动进入设置页面打开蓝牙");
+            }
         }
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         //设置前台扫描时长

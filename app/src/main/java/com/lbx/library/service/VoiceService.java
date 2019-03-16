@@ -70,6 +70,11 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
         return new MyBinder(this);
     }
 
+    public void recycle() {
+        setOnVoicePlayListener(null);
+        recycleMediaPlayer();
+    }
+
     public class MyBinder extends Binder {
         VoiceService service;
 
@@ -115,13 +120,13 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     public void setExhibits(Exhibits exhibits) {
         PLAYING_EXHIBITS = exhibits;
         String voice = exhibits.getVoice();
-        xLogUtil.e("音频:" + voice);
         try {
-            if (mMediaPlayer.isPlaying()) {
+            if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
                 recycleMediaPlayer();
             }
             initMediaPlayer();
             mMediaPlayer.setDataSource(voice);
+            xLogUtil.e("音频:" + voice);
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

@@ -48,7 +48,7 @@ import lbx.xtoollib.XTools;
 public class NavigationView extends android.support.v7.widget.AppCompatImageView {
 
     private Floor mFloor;
-    private Bitmap mBitmap, mSelectBitmap, mUserBitmap;
+    private Bitmap mBitmap, mPlayingBitmap, mUserBitmap;
     private int mBitmapW = 50;
     private int mBitmapH;
     private Context mContext;
@@ -64,17 +64,17 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
 
     public NavigationView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         mBitmap = XTools.BitmapUtil().zoomBmp(
                 BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.location_zp), mBitmapW);
-        mSelectBitmap = XTools.BitmapUtil().zoomBmp(
+        mPlayingBitmap = XTools.BitmapUtil().zoomBmp(
                 BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.location_zp_playing), mBitmapW);
+                        R.drawable.location_zp_playing), mBitmapW + 18);
         mUserBitmap = XTools.BitmapUtil().zoomBmp(
                 BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.location_friend), mBitmapW);
         mBitmapH = mBitmap.getHeight();
-        mContext = context;
     }
 
     public void setFloor(Floor floor) {
@@ -114,7 +114,7 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
                 Point point = exhibit.getPoint();
                 int left = point.x - mBitmapW / 2;
                 int top = point.y - mBitmapH;
-                canvas.drawBitmap(exhibit.isPlaying()?mSelectBitmap:mBitmap, left, top, null);
+                canvas.drawBitmap(exhibit.isPlaying() ? mPlayingBitmap : mBitmap, left, top, null);
                 exhibit.setRect(getRect(left, top));
             }
         }
@@ -152,6 +152,10 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
                 break;
         }
         return true;
+    }
+
+    public void refreshImageState() {
+        invalidate();
     }
 
     private OnExhibitsLocationClickListener mOnExhibitsLocationClickListener;

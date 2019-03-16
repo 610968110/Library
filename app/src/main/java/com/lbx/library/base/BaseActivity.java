@@ -51,7 +51,6 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
     private PendingIntent mPendingIntent;
     private VoiceService mVoiceService;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bindComponent(getApp().getAppComponent());
@@ -65,7 +64,6 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
         }
     }
 
-
     @CallSuper
     @Override
     public void initData() {
@@ -77,7 +75,13 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
         } else {
             XTools.UiUtil().showToast("您的设备不支持nfc");
         }
-        VoiceService.getIntent(this).bindService(mConnection);
+        if (connectService()) {
+            VoiceService.getIntent(this).bindService(mConnection);
+        }
+    }
+
+    public boolean connectService() {
+        return true;
     }
 
     @Override
@@ -85,6 +89,9 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
         super.onResume();
         if (mNfcAdapter != null) {
             mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
+        }
+        if (mVoiceService != null) {
+            mVoiceService.setOnVoicePlayListener(BaseActivity.this);
         }
     }
 
@@ -99,6 +106,7 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        xLogUtil.e("onNewIntent");
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
             Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             String CardId = ByteArrayToHexString(tagFromIntent.getId());
@@ -167,7 +175,9 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
 
     @Override
     protected void onDestroy() {
-        VoiceService.getIntent(this).unbindService(mConnection);
+        if (connectService()) {
+            VoiceService.getIntent(this).unbindService(mConnection);
+        }
         super.onDestroy();
     }
 }

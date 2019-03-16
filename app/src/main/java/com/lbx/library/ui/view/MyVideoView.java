@@ -276,6 +276,7 @@ public class MyVideoView extends FrameLayout implements MediaPlayer.OnPreparedLi
     public void recycle() {
         pause();
         mImageView.setVisibility(VISIBLE);
+        setOnPlayListener(null);
     }
 
     public interface OnPlayListener {
