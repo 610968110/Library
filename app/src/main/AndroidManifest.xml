@@ -67,6 +67,10 @@
             android:name=".ui.activity.QuestionActivity"
             android:configChanges="keyboard|orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.InteractiveAnswerActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.CoreService"

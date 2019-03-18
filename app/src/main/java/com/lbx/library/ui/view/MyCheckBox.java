@@ -49,4 +49,8 @@ public class MyCheckBox extends android.support.v7.widget.AppCompatImageView {
     public void setSelect(boolean select) {
         setImageResource(select ? R.drawable.yes : 0);
     }
+
+    public void setWrong(boolean wrong) {
+        setImageResource(wrong ? R.drawable.wrong : 0);
+    }
 }

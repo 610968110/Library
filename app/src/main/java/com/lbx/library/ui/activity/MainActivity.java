@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void interactiveAnswer(MenuItem item) {
         xLogUtil.e(this, "互动答题");
-        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.interactiveAnswer)).start();
+//        InteractiveAnswerActivity.getIntent(this).start();
     }
 
     public void deviceInformation(MenuItem item) {

@@ -41,6 +41,7 @@ public class OptionTextView extends LinearLayout {
 
     private static final int SELECT_COLOR = Color.parseColor("#9F0303");
     private static final int NORMAL_COLOR = Color.parseColor("#A07246");
+    private static final int WRONG_COLOR = Color.parseColor("#cccccc");
     private static final int OPTIONS_TEXT_SIZE = 14;
     private static final int OPTIONS_BOX_SIZE = XTools.WindowUtil().dip2px(14);
     private TextView mTextView;
@@ -73,6 +74,12 @@ public class OptionTextView extends LinearLayout {
         mTextView.setTextColor(select ? SELECT_COLOR : NORMAL_COLOR);
         mCheckBox.setSelect(select);
     }
+
+    public void setShowWrong(boolean wrong) {
+        mTextView.setTextColor(wrong ? WRONG_COLOR : NORMAL_COLOR);
+        mCheckBox.setWrong(wrong);
+    }
+
 
     public void setOption(String option) {
         mTextView.setText(option);

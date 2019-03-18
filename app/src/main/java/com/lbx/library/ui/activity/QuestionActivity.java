@@ -18,7 +18,7 @@ import lbx.xtoollib.XTools;
 
 /**
  * @author lbx
- *         问卷
+ *         调查问卷
  */
 public class QuestionActivity extends BaseActivity implements QuestionGroup.OnSureClickListener {
 
@@ -69,7 +69,7 @@ public class QuestionActivity extends BaseActivity implements QuestionGroup.OnSu
                 "偶尔出现没有反应、定位错误的情况，但会自动纠正",
                 "不能，步骤繁琐",
                 "找不到");
-        mQuestionGroup.addView(v, v1, v2);
+        mQuestionGroup.setQuestionViews(v, v1, v2);
     }
 
     @Override

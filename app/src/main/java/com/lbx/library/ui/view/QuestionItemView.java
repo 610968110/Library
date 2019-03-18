@@ -72,7 +72,10 @@ public class QuestionItemView extends LinearLayout {
             OptionTextView qv = getOptionsView(options[i]);
             mOptionsView[i] = qv;
             int finalI = i;
-            qv.setOnClickListener(v -> selectOptions(finalI));
+            //题目不需要
+            if (0 != i) {
+                qv.setOnClickListener(v -> selectOptions(finalI));
+            }
             addView(qv, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, OPTIONS_ITEM_HEIGHT));
         }
     }
