@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.CallSuper;
 
 import com.lbx.library.App;
+import com.lbx.library.bean.Exhibits;
 import com.lbx.library.injector.components.ActivityComponent;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.service.VoiceService;
@@ -171,6 +172,12 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
 
     public void onServiceDisconnected() {
 
+    }
+
+    public void playVoice(Exhibits exhibits) {
+        if (mVoiceService != null) {
+            mVoiceService.setExhibits(exhibits);
+        }
     }
 
     @Override

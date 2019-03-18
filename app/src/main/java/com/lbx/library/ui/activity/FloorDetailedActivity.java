@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 
+import com.lbx.library.Config;
 import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
+import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
 
 /**
@@ -112,6 +114,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         }
         mTopBar.bind(this, mFloor.getName());
         mTopBar.setLesserTitle(R.string.exhibits_list);
+        mPlayLayout.setAutoPlay(Config.AUTO_PLAY);
     }
 
     @Override
@@ -141,6 +144,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     public void onSwitch(boolean open) {
         xLogUtil.e(this, "自动播放:" + open);
         mAutoPlay = open;
+        XTools.SpUtil().putBoolean(Config.AUTO_PLAY_TAG, open);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.lbx.library.service;
 
+import android.app.Activity;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
@@ -9,6 +10,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+
+import com.lbx.library.Config;
+import com.lbx.library.base.BaseActivity;
+import com.lbx.library.bean.Exhibits;
+import com.lbx.library.type.Floors;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -52,13 +58,13 @@ import static org.altbeacon.beacon.BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD;
 public class CoreService extends Service implements BeaconConsumer, RangeNotifier {
 
     private BeaconManager mBeaconManager;
+    private Exhibits mBLEPlayExhibits;
 
     public static void start(Context context) {
         try {
             Intent intent = new Intent(context, CoreService.class);
             context.startService(intent);
         } catch (Exception ignored) {
-
         }
     }
 
@@ -132,6 +138,9 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
 
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
+        if (!Config.AUTO_PLAY) {
+            return;
+        }
         List<Beacon> list = new ArrayList<>();
         list.addAll(collection);
 //        xLogUtil.e("didRangeBeaconsInRegion:" + list.size());
@@ -146,6 +155,19 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
                     + "major:" + major + ","
                     + "minor:" + minor + ","
                     + "distance:" + distance);
+        }
+        //TODO 播放
+        if (list.size() > 0) {
+            Beacon beacon = list.get(0);
+            if (mBLEPlayExhibits != null && mBLEPlayExhibits.getId()
+                    .equals(Floors.FIRST_FLOOR.getFloor().getExhibitsList().get(0).getId())) {
+                xLogUtil.e("BLE播放和当前播放的展品是一个");
+                return;
+            }
+            mBLEPlayExhibits = Floors.FIRST_FLOOR.getFloor().getExhibitsList().get(0);
+            ArrayList<Activity> activities = XTools.ActivityUtil().getActivities();
+            BaseActivity activity = (BaseActivity) activities.get(activities.size() - 1);
+            activity.playVoice(mBLEPlayExhibits);
         }
     }
 

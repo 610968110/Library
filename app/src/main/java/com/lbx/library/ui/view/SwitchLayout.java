@@ -79,6 +79,10 @@ public class SwitchLayout extends LinearLayout {
         });
     }
 
+    public void setAutoPlay(boolean autoPlay) {
+        mSwitchButton.writeSwitchButtonState(autoPlay);
+    }
+
     public interface OnSwitchListener {
         void onSwitch(boolean open);
     }
