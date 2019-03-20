@@ -41,6 +41,8 @@ import lbx.xtoollib.XTools;
 public class QuestionGroup extends LinearLayout {
 
     private Button mSureButton;
+    private boolean setSelectable = true;
+    private QuestionItemView[] views;
 
     public QuestionGroup(@NonNull Context context) {
         this(context, null);
@@ -66,8 +68,10 @@ public class QuestionGroup extends LinearLayout {
         mSureButton.setOnClickListener(new OnCommitClick());
     }
 
-    public void setQuestionViews(View... children) {
-        for (View v : children) {
+    public void setQuestionViews(QuestionItemView... children) {
+        views = children;
+        for (QuestionItemView v : children) {
+            v.setSelectable(setSelectable);
             int childCount = getChildCount();
             int index = childCount - 1;
             super.addView(v, Math.max(0, index));
@@ -75,6 +79,15 @@ public class QuestionGroup extends LinearLayout {
     }
 
     private OnSureClickListener mOnSureClickListener;
+
+    public void setSelectable(boolean b) {
+        setSelectable = b;
+        if (views != null) {
+            for (QuestionItemView v : views) {
+                v.setSelectable(setSelectable);
+            }
+        }
+    }
 
     public interface OnSureClickListener {
         void click(View view, boolean all);

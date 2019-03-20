@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * .  ┏┓　　　┏┓
  * .┏┛┻━━━┛┻┓
@@ -48,28 +51,24 @@ public class AnswerGroup extends QuestionGroup implements QuestionGroup.OnSureCl
     @Override
     public void click(View view, boolean all) {
         int childCount = getChildCount();
-        boolean[] b = new boolean[childCount];
+        List<Boolean> b = new ArrayList<>();
         for (int i = 0; i < childCount; i++) {
             View childAt = getChildAt(i);
             if (childAt instanceof AnswerItemView) {
                 AnswerItemView answerItemView = (AnswerItemView) childAt;
-                if (answerItemView.getRightPos() == answerItemView.getSelect()) {
-                    b[i] = true;
-                } else {
-                    b[i] = false;
-                    answerItemView.showWrongItem();
-                }
+                answerItemView.answerFinish();
+                b.add(answerItemView.isAnswerRight());
             }
         }
         if (mOnCommitClickListener != null) {
-            mOnCommitClickListener.commit(view, all, null);
+            mOnCommitClickListener.commit(view, all, b);
         }
     }
 
     private OnCommitClickListener mOnCommitClickListener;
 
     public interface OnCommitClickListener {
-        void commit(View view, boolean all, boolean[] right);
+        void commit(View view, boolean all, List<Boolean> right);
     }
 
     public void setOnCommitClickListener(OnCommitClickListener onCommitClickListener) {

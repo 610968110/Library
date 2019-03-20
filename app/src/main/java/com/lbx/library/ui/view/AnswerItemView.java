@@ -33,7 +33,9 @@ import lbx.xtoollib.phone.xLogUtil;
  */
 
 public class AnswerItemView extends QuestionItemView {
+
     private int rightPos;
+    private boolean isAnswerRight;
 
     public AnswerItemView(@NonNull Context context) {
         this(context, null);
@@ -54,22 +56,41 @@ public class AnswerItemView extends QuestionItemView {
     }
 
     public void setOptions(@NonNull String question, int rightPos, @NonNull String... options) {
-        this.rightPos = rightPos;
         super.setOptions(question, options);
+        this.rightPos = rightPos;
     }
 
     public int getRightPos() {
         return rightPos;
     }
 
-    public void showWrongItem() {
-        int select = getSelect();
+    public void answerFinish() {
         int rightPos = getRightPos();
-        if (rightPos != select) {
-            for (int i = 0; i < getChildCount(); i++) {
-                View childAt = getChildAt(i);
-                xLogUtil.e("childAt:" + childAt);
+        xLogUtil.e("rightPos:" + rightPos);
+        //不算题目的View
+        int childCount = getChildCount();
+        for (int i = 1; i < childCount; i++) {
+            View childAt = getChildAt(i);
+            OptionTextView optionTextView = (OptionTextView) childAt;
+            if (i == rightPos) {
+                //正确
+                if (!optionTextView.isSelect()) {
+                    xLogUtil.e("显示正确答案:" + optionTextView.getText());
+                    optionTextView.setSelect(true);
+                } else {
+                    isAnswerRight = true;
+                }
+            } else {
+                //错误
+                if (optionTextView.isSelect()) {
+                    xLogUtil.e("回答错误,选择的是:" + optionTextView.getText());
+                    optionTextView.setShowWrong(true);
+                }
             }
         }
+    }
+
+    public boolean isAnswerRight() {
+        return isAnswerRight;
     }
 }

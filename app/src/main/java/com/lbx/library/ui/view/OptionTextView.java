@@ -46,6 +46,7 @@ public class OptionTextView extends LinearLayout {
     private static final int OPTIONS_BOX_SIZE = XTools.WindowUtil().dip2px(14);
     private TextView mTextView;
     private MyCheckBox mCheckBox;
+    private boolean isSelect;
 
     public OptionTextView(@NonNull Context context) {
         this(context, null);
@@ -71,15 +72,24 @@ public class OptionTextView extends LinearLayout {
     }
 
     public void setSelect(boolean select) {
+        isSelect = select;
         mTextView.setTextColor(select ? SELECT_COLOR : NORMAL_COLOR);
         mCheckBox.setSelect(select);
     }
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
     public void setShowWrong(boolean wrong) {
+        isSelect = false;
         mTextView.setTextColor(wrong ? WRONG_COLOR : NORMAL_COLOR);
         mCheckBox.setWrong(wrong);
     }
 
+    public String getText() {
+        return mTextView.getText().toString();
+    }
 
     public void setOption(String option) {
         mTextView.setText(option);

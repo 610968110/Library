@@ -11,9 +11,12 @@ import com.lbx.library.ui.view.AnswerGroup;
 import com.lbx.library.ui.view.AnswerItemView;
 import com.lbx.library.ui.view.TopBar;
 
+import java.util.List;
+
 import butterknife.BindView;
 import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.phone.xLogUtil;
 
 /**
  * .  ┏┓　　　┏┓
@@ -69,19 +72,19 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
     public void initView(View view) {
         mTopBar.bind(this, XTools.ResUtil().getString(R.string.interactiveAnswer));
         AnswerItemView v = new AnswerItemView(this);
-        v.setOptions("0",
-                1,
-                "0",
-                "0",
-                "0",
-                "0");
-        AnswerItemView v1 = new AnswerItemView(this);
-        v1.setOptions("",
+        v.setOptions("Q",
                 2,
-                "0",
-                "0",
-                "0",
-                "0");
+                "A",
+                "B",
+                "C",
+                "D");
+        AnswerItemView v1 = new AnswerItemView(this);
+        v1.setOptions("Q1",
+                3,
+                "AA",
+                "BB",
+                "CC",
+                "DD");
         mAnswerLayout.setQuestionViews(v, v1);
     }
 
@@ -92,11 +95,14 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
     }
 
     @Override
-    public void commit(View view, boolean all, boolean[] right) {
+    public void commit(View view, boolean all, List<Boolean> right) {
         if (!all) {
             XTools.UiUtil().showToast("您有问题没有作答，请您答完再提交");
         } else {
-
+            for (boolean aRight : right) {
+                xLogUtil.e("r:" + aRight);
+            }
+            mAnswerLayout.setSelectable(false);
         }
     }
 }

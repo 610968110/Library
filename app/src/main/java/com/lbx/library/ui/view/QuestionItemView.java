@@ -45,6 +45,7 @@ public class QuestionItemView extends LinearLayout {
     private Context mContext;
     private static final int OPTIONS_ITEM_HEIGHT = XTools.WindowUtil().dip2px(40);
     private int mSelectPos = -1;
+    private boolean selectable;
 
     public QuestionItemView(@NonNull Context context) {
         this(context, null);
@@ -72,10 +73,7 @@ public class QuestionItemView extends LinearLayout {
             OptionTextView qv = getOptionsView(options[i]);
             mOptionsView[i] = qv;
             int finalI = i;
-            //题目不需要
-            if (0 != i) {
-                qv.setOnClickListener(v -> selectOptions(finalI));
-            }
+            qv.setOnClickListener(v -> selectOptions(finalI));
             addView(qv, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, OPTIONS_ITEM_HEIGHT));
         }
     }
@@ -88,6 +86,9 @@ public class QuestionItemView extends LinearLayout {
     }
 
     private void selectOptions(int pos) {
+        if (!selectable) {
+            return;
+        }
         mSelectPos = pos;
         for (int i = 0; i < mOptionsView.length; i++) {
             mOptionsView[i].setSelect(i == pos);
@@ -100,5 +101,9 @@ public class QuestionItemView extends LinearLayout {
 
     public int getSelect() {
         return mSelectPos;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
     }
 }
