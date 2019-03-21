@@ -41,17 +41,25 @@ public class Floor implements Parcelable {
     private final
     @DrawableRes
     int img;
+    private final
+    @DrawableRes
+    int bigImg;
 
-    public Floor(String id, String name, int floor, int img) {
+    public Floor(String id, String name, int floor, int img, int bigImg) {
         this.id = id;
         this.name = name;
         this.floor = floor;
         this.img = img;
+        this.bigImg = bigImg;
         mExhibitsList = new ArrayList<>();
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getBigImg() {
+        return bigImg;
     }
 
     public ArrayList<Exhibits> addExhibits(Exhibits exhibits) {
@@ -101,6 +109,7 @@ public class Floor implements Parcelable {
         dest.writeInt(this.floor);
         dest.writeTypedList(this.mExhibitsList);
         dest.writeInt(this.img);
+        dest.writeInt(this.bigImg);
     }
 
     protected Floor(Parcel in) {
@@ -109,6 +118,7 @@ public class Floor implements Parcelable {
         this.floor = in.readInt();
         this.mExhibitsList = in.createTypedArrayList(Exhibits.CREATOR);
         this.img = in.readInt();
+        this.bigImg = in.readInt();
     }
 
     public static final Creator<Floor> CREATOR = new Creator<Floor>() {

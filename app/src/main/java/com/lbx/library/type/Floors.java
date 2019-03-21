@@ -35,7 +35,7 @@ import lbx.xtoollib.XTools;
 
 public enum Floors {
 
-    FIRST_FLOOR(new Floor("1", "文明摇篮展厅", 1, R.drawable.floor_1)) {
+    FIRST_FLOOR(new Floor("1", "文明摇篮展厅", 1, R.drawable.floor_1, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
             Exhibits e1 = new Exhibits("玻璃碗", "玻璃碗", R.drawable.boliwan_f, R.drawable.boliwan, "北魏",
@@ -54,7 +54,7 @@ public enum Floors {
         }
     },
 
-    SECOND_FLOOR(new Floor("2", "夏商踪迹展厅", 2, R.drawable.floor_2)) {
+    SECOND_FLOOR(new Floor("2", "夏商踪迹展厅", 2, R.drawable.floor_2, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            Exhibits exhibits = new Exhibits("展品", "展品", R.mipmap.ic_launcher_round, R.mipmap.ic_launcher, "a", "b");
@@ -65,7 +65,7 @@ public enum Floors {
         }
     },
 
-    THIRD_FLOOR(new Floor("3", "晋国霸业展厅", 3, R.drawable.floor_3)) {
+    THIRD_FLOOR(new Floor("3", "晋国霸业展厅", 3, R.drawable.floor_3, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            for (int i = 0; i < 12; i++) {
@@ -75,7 +75,7 @@ public enum Floors {
         }
     },
 
-    FOURTH_FLOOR(new Floor("4", "民族熔炉展厅", 4, R.drawable.floor_4)) {
+    FOURTH_FLOOR(new Floor("4", "民族熔炉展厅", 4, R.drawable.floor_4, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            for (int i = 0; i < 12; i++) {
@@ -85,7 +85,7 @@ public enum Floors {
         }
     },
 
-    FIFTH_FLOOR(new Floor("5", "佛风遗韵展厅", 5, R.drawable.floor_5)) {
+    FIFTH_FLOOR(new Floor("5", "佛风遗韵展厅", 5, R.drawable.floor_5, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            for (int i = 0; i < 12; i++) {
@@ -95,7 +95,7 @@ public enum Floors {
         }
     },
 
-    SIXTH_FLOOR(new Floor("6", "戏曲故乡", 6, R.drawable.floor_6)) {
+    SIXTH_FLOOR(new Floor("6", "戏曲故乡", 6, R.drawable.floor_6, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            for (int i = 0; i < 12; i++) {
@@ -105,7 +105,7 @@ public enum Floors {
         }
     },
 
-    SEVENTH_FLOOR(new Floor("7", "明清晋商展厅", 7, R.drawable.floor_7)) {
+    SEVENTH_FLOOR(new Floor("7", "明清晋商展厅", 7, R.drawable.floor_7, R.drawable.floor_test)) {
         @Override
         public Floor addExhibits(Floor floor) {
 //            for (int i = 0; i < 12; i++) {

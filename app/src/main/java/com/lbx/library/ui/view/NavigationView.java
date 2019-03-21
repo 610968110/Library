@@ -15,12 +15,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
 
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.phone.xLogUtil;
 
 /**
  * .  ┏┓　　　┏┓
@@ -80,14 +82,18 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
     public void setFloor(Floor floor) {
         mFloor = floor;
         if (floor != null) {
-            int img = floor.getImg();
-            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), img);
+            int img = floor.getBigImg();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), img, options);
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
             Looper.myQueue().addIdleHandler(() -> {
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-//                ViewGroup.LayoutParams layoutParams = getLayoutParams();
-//                layoutParams.width = width;
-//                layoutParams.height = height;
+                xLogUtil.e("width:" + width);
+                xLogUtil.e("height:" + height);
+                ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                layoutParams.width = width;
+                layoutParams.height = height;
                 setImageBitmap(bitmap);
                 return false;
             });
