@@ -15,7 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/topBar_h" />
 
+        <com.lbx.library.ui.view.AnswerResultView
+            android:id="@+id/arv_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
         <ScrollView
+            android:id="@+id/sv_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

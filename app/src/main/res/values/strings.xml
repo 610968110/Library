@@ -20,6 +20,10 @@
     <string name="my_friends2">我的同伴</string>
     <string name="friends_list">伙伴列表</string>
     <string name="add">添加</string>
+    <string name="ti">题</string>
+    <string name="ti_total">总计：</string>
+    <string name="ti_right">正确：</string>
+    <string name="ti_wrong">错误：</string>
     <string name="friend_list_desc">将你的小伙伴的导览机设备ID录入在这里，
         录入后你就可以通过导览地图实时的看到你的小伙伴的位置\n\n设备ID可以在设备信息里面找到</string>
     <string name="introductionToLibrary_content">\u3000\u3000山西省图书馆是国内为数不多的百年老馆之一，是由政府主办的公益性、

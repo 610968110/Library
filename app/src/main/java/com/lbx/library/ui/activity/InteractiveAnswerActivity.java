@@ -1,14 +1,18 @@
 package com.lbx.library.ui.activity;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.ui.view.AnswerGroup;
 import com.lbx.library.ui.view.AnswerItemView;
+import com.lbx.library.ui.view.AnswerResultView;
 import com.lbx.library.ui.view.TopBar;
 
 import java.util.List;
@@ -48,6 +52,11 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
     TopBar mTopBar;
     @BindView(R.id.ll_answer)
     AnswerGroup mAnswerLayout;
+    @BindView(R.id.sv_answer)
+    ScrollView mScrollView;
+    @BindView(R.id.arv_main)
+    AnswerResultView mAnswerResultView;
+    private static final int H = XTools.WindowUtil().dip2px(420);
 
     public static XIntent getIntent(Context context) {
         return new XIntent(context, InteractiveAnswerActivity.class);
@@ -99,10 +108,32 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
         if (!all) {
             XTools.UiUtil().showToast("您有问题没有作答，请您答完再提交");
         } else {
-            for (boolean aRight : right) {
-                xLogUtil.e("r:" + aRight);
+            if (mAnswerResultView.getMeasuredHeight() != 0) {
+                XTools.UiUtil().showToast("您已答题完毕");
+                return;
             }
+            xLogUtil.e("完成答题");
+            //不可再答题
             mAnswerLayout.setSelectable(false);
+            mScrollView.smoothScrollTo(0, 0);
+            int rightCount = 0;
+            for (boolean b : right) {
+                if (b) {
+                    rightCount++;
+                }
+            }
+            int total = mAnswerLayout.getChildCount();
+            mAnswerResultView.setResult(total + "",
+                    rightCount + "",
+                    total - rightCount + "");
+            ValueAnimator animator = ValueAnimator.ofInt(0, H);
+            animator.setDuration(500);
+            animator.addUpdateListener(animation -> {
+                ViewGroup.LayoutParams params = mAnswerResultView.getLayoutParams();
+                params.height = (int) animation.getAnimatedValue();
+                mAnswerResultView.setLayoutParams(params);
+            });
+            animator.start();
         }
     }
 }
