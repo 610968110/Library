@@ -81,19 +81,19 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
     public void initView(View view) {
         mTopBar.bind(this, XTools.ResUtil().getString(R.string.interactiveAnswer));
         AnswerItemView v = new AnswerItemView(this);
-        v.setOptions("Q",
+        v.setOptions("1、青铜罍是商代晚期至春秋中期古人祭祀活动中重要的礼器之一，其主要是作为____来使用的。",
                 2,
-                "A",
-                "B",
-                "C",
-                "D");
+                "A 盛酒或盛水器",
+                "B 温酒器",
+                "C 盛食器",
+                "D 烹煮器");
         AnswerItemView v1 = new AnswerItemView(this);
-        v1.setOptions("Q1",
+        v1.setOptions("2、三星堆出土的玉璋数量众多，可以大致被分为三类：一类为边璋，一类为牙璋，还有一类为鱼形璋。其中____是蜀地特有的器型，目前仅见于三星堆遗址和金沙遗址。",
                 3,
-                "AA",
-                "BB",
-                "CC",
-                "DD");
+                "A 边璋",
+                "B 牙璋",
+                "C 鱼形璋",
+                "D 三种均不是");
         mAnswerLayout.setQuestionViews(v, v1);
     }
 
@@ -122,7 +122,7 @@ public class InteractiveAnswerActivity extends BaseActivity implements AnswerGro
                     rightCount++;
                 }
             }
-            int total = mAnswerLayout.getChildCount();
+            int total = mAnswerLayout.getChildCount() - 1;
             mAnswerResultView.setResult(total + "",
                     rightCount + "",
                     total - rightCount + "");

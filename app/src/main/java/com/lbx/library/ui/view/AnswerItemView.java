@@ -66,7 +66,6 @@ public class AnswerItemView extends QuestionItemView {
 
     public void answerFinish() {
         int rightPos = getRightPos();
-        xLogUtil.e("rightPos:" + rightPos);
         //不算题目的View
         int childCount = getChildCount();
         for (int i = 1; i < childCount; i++) {
