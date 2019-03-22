@@ -153,17 +153,23 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void seekTo(int progress) {
-        mMediaPlayer.seekTo(progress);
+        if (mMediaPlayer != null) {
+            mMediaPlayer.seekTo(progress);
+        }
     }
 
     public void play() {
-        mMediaPlayer.start();
-        EventBus.getDefault().post(new PlayingVoiceBean(PLAYING_EXHIBITS));
+        if (mMediaPlayer != null) {
+            mMediaPlayer.start();
+            EventBus.getDefault().post(new PlayingVoiceBean(PLAYING_EXHIBITS));
+        }
     }
 
     public void pause() {
-        mMediaPlayer.pause();
-        EventBus.getDefault().post(new PlayingVoiceBean(null));
+        if (mMediaPlayer != null) {
+            mMediaPlayer.pause();
+            EventBus.getDefault().post(new PlayingVoiceBean(null));
+        }
     }
 
     public int getCurrentPosition() {

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Looper;
@@ -15,11 +14,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.view.View;
 
 import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
+
+import java.io.IOException;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
@@ -47,7 +48,7 @@ import lbx.xtoollib.phone.xLogUtil;
  * @date 2019/1/21.
  */
 
-public class NavigationView extends android.support.v7.widget.AppCompatImageView {
+public class NavigationView extends View {
 
     private Floor mFloor;
     private Bitmap mBitmap, mPlayingBitmap, mUserBitmap;
@@ -55,6 +56,11 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
     private int mBitmapH;
     private Context mContext;
     private Exhibits[] exhibits;
+    private boolean invide;
+    BitmapRegionDecoder mBitmapRegionDecoder;
+    private Rect mRect;
+    private float mScale;
+    private int mBmpW;
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -77,24 +83,29 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
                 BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.location_friend), mBitmapW);
         mBitmapH = mBitmap.getHeight();
+        mRect = new Rect();
     }
 
     public void setFloor(Floor floor) {
         mFloor = floor;
         if (floor != null) {
-            int img = floor.getBigImg();
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;
-            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), img, options);
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), floor.getBigImg(), options);
+            mBmpW = options.outWidth;
+            int bmpH = options.outHeight;
             Looper.myQueue().addIdleHandler(() -> {
-                xLogUtil.e("width:" + width);
-                xLogUtil.e("height:" + height);
-                ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                layoutParams.width = width;
-                layoutParams.height = height;
-                setImageBitmap(bitmap);
+                mScale = getMeasuredHeight() * 1.0f / bmpH;
+                xLogUtil.e("mScale:" + mScale);
+                mRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                try {
+                    mBitmapRegionDecoder = BitmapRegionDecoder.newInstance(
+                            getResources().openRawResource(floor.getBigImg()), false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                invide = true;
+                invalidate();
                 return false;
             });
         }
@@ -111,10 +122,11 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
-        canvas.drawPoint(point.x, point.y, paint);
+        if (!invide) {
+            return;
+        }
+        Bitmap bitmap = mBitmapRegionDecoder.decodeRegion(mRect, null);
+        canvas.drawBitmap(bitmap, 0, 0, null);
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
                 Point point = exhibit.getPoint();
@@ -131,18 +143,44 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
         return new Rect(left, top, left + mBitmapW, top + mBitmapH);
     }
 
-    Point point = new Point();
-    Paint paint = new Paint();
+    private boolean isMove;
+    private int downX, downY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = (int) event.getRawX();
+                downY = (int) event.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int dx = downX - (int) event.getRawX();
+                int dy = downY - (int) event.getRawY();
+                if (Math.abs(dx) >= 10) {
+                    isMove = true;
+                    if (mRect.left < -100) {
+                        xLogUtil.e("超出l边界");
+                        mRect.left = -100;
+                        mRect.right = mRect.left + getMeasuredWidth();
+                    }
+                    if (mRect.right > mBmpW * mScale) {
+                        xLogUtil.e("超出r边界");
+                        mRect.right = (int) (mBmpW * mScale) ;
+                        mRect.left = mRect.right - getMeasuredWidth();
+                    }
+                    mRect.offset(dx, 0);
+                    invalidate();
+                } else if (Math.abs(dy) >= 10) {
+                    isMove = true;
+                }
+                downX = (int) event.getRawX();
+                downY = (int) event.getRawY();
+                break;
             case MotionEvent.ACTION_UP:
-                if (exhibits != null) {
+                //如果是点击
+                if (exhibits != null && !isMove) {
                     int x = (int) event.getX();
                     int y = (int) event.getY();
-                    point.x = x;
-                    point.y = y;
                     for (int i = 0; i < exhibits.length; i++) {
                         if (exhibits[i].getRect().contains(x, y)) {
                             if (mOnExhibitsLocationClickListener != null) {
@@ -153,6 +191,7 @@ public class NavigationView extends android.support.v7.widget.AppCompatImageView
                     }
                     invalidate();
                 }
+                isMove = false;
                 break;
             default:
                 break;

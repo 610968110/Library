@@ -114,7 +114,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         }
         mTopBar.bind(this, mFloor.getName());
         mTopBar.setLesserTitle(R.string.exhibits_list);
-        mPlayLayout.setAutoPlay(Config.AUTO_PLAY);
+        mPlayLayout.setAutoPlay(mAutoPlay = Config.AUTO_PLAY);
     }
 
     @Override
