@@ -13,6 +13,6 @@
         app:xProgressColor="@color/colorAccent2"
         app:xProgressDelay="0"
         app:xProgressDuration="600"
-        app:xProgressStyle="xDoubleBounds" />
+        app:xProgressStyle="xDoubleBoundsVariation" />
 
 </RelativeLayout>

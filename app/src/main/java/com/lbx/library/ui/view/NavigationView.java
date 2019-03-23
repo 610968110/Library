@@ -59,8 +59,8 @@ public class NavigationView extends View {
     private boolean invide;
     BitmapRegionDecoder mBitmapRegionDecoder;
     private Rect mRect;
-    private float mScale;
     private int mBmpW;
+    private int mBmpH;
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -86,6 +86,16 @@ public class NavigationView extends View {
         mRect = new Rect();
     }
 
+    private OnLoadFinishListener mOnLoadFinishListener;
+
+    public interface OnLoadFinishListener {
+        void onLoadFinish();
+    }
+
+    public void setOnLoadFinishListener(OnLoadFinishListener onLoadFinishListener) {
+        this.mOnLoadFinishListener = onLoadFinishListener;
+    }
+
     public void setFloor(Floor floor) {
         mFloor = floor;
         if (floor != null) {
@@ -93,10 +103,8 @@ public class NavigationView extends View {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(getResources(), floor.getBigImg(), options);
             mBmpW = options.outWidth;
-            int bmpH = options.outHeight;
+            mBmpH = options.outHeight;
             Looper.myQueue().addIdleHandler(() -> {
-                mScale = getMeasuredHeight() * 1.0f / bmpH;
-                xLogUtil.e("mScale:" + mScale);
                 mRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
                 try {
                     mBitmapRegionDecoder = BitmapRegionDecoder.newInstance(
@@ -106,6 +114,9 @@ public class NavigationView extends View {
                 }
                 invide = true;
                 invalidate();
+                if (mOnLoadFinishListener != null) {
+                    mOnLoadFinishListener.onLoadFinish();
+                }
                 return false;
             });
         }
@@ -126,7 +137,9 @@ public class NavigationView extends View {
             return;
         }
         Bitmap bitmap = mBitmapRegionDecoder.decodeRegion(mRect, null);
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        if (bitmap != null) {
+            canvas.drawBitmap(bitmap, 0, 0, null);
+        }
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
                 Point point = exhibit.getPoint();
@@ -158,21 +171,33 @@ public class NavigationView extends View {
                 int dy = downY - (int) event.getRawY();
                 if (Math.abs(dx) >= 10) {
                     isMove = true;
-                    if (mRect.left < -100) {
+                    mRect.offset(dx, 0);
+                    if (mRect.left < 0) {
                         xLogUtil.e("超出l边界");
-                        mRect.left = -100;
+                        mRect.left = 0;
                         mRect.right = mRect.left + getMeasuredWidth();
                     }
-                    if (mRect.right > mBmpW * mScale) {
+                    if (mRect.right > mBmpW) {
                         xLogUtil.e("超出r边界");
-                        mRect.right = (int) (mBmpW * mScale) ;
+                        mRect.right = mBmpW;
                         mRect.left = mRect.right - getMeasuredWidth();
                     }
-                    mRect.offset(dx, 0);
-                    invalidate();
-                } else if (Math.abs(dy) >= 10) {
-                    isMove = true;
                 }
+                if (Math.abs(dy) >= 10) {
+                    isMove = true;
+                    mRect.offset(0, dy);
+                    if (mRect.top < 0) {
+                        xLogUtil.e("超出t边界");
+                        mRect.top = 0;
+                        mRect.bottom = mRect.top + getMeasuredHeight();
+                    }
+                    if (mRect.bottom > mBmpH) {
+                        xLogUtil.e("超出b边界");
+                        mRect.bottom = mBmpH - 10;
+                        mRect.top = mRect.bottom - getMeasuredHeight();
+                    }
+                }
+                invalidate();
                 downX = (int) event.getRawX();
                 downY = (int) event.getRawY();
                 break;
