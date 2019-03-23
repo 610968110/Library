@@ -61,6 +61,24 @@ public class NavigationView extends View {
     private Rect mRect;
     private int mBmpW;
     private int mBmpH;
+    /**
+     * 如果View大小大于图片高度，Y不可滚动
+     */
+    private boolean scrollableY;
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (mBitmap != null) {
+            mBitmap.recycle();
+        }
+        if (mPlayingBitmap != null) {
+            mPlayingBitmap.recycle();
+        }
+        if (mUserBitmap != null) {
+            mUserBitmap.recycle();
+        }
+        super.onDetachedFromWindow();
+    }
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -112,6 +130,7 @@ public class NavigationView extends View {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                scrollableY = mBitmapH > getMeasuredHeight();
                 invide = true;
                 invalidate();
                 if (mOnLoadFinishListener != null) {
@@ -136,6 +155,12 @@ public class NavigationView extends View {
         if (!invide) {
             return;
         }
+        int save = -1;
+        if (!scrollableY) {
+            save = canvas.save();
+            //使图片Y居中
+            canvas.translate(0, getMeasuredHeight() / 2 - mBmpH / 2);
+        }
         Bitmap bitmap = mBitmapRegionDecoder.decodeRegion(mRect, null);
         if (bitmap != null) {
             canvas.drawBitmap(bitmap, 0, 0, null);
@@ -143,11 +168,14 @@ public class NavigationView extends View {
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
                 Point point = exhibit.getPoint();
-                int left = point.x - mBitmapW / 2;
-                int top = point.y - mBitmapH;
+                int left = point.x - mBitmapW / 2 - mRect.left;
+                int top = point.y - mBitmapH - mRect.top;
                 canvas.drawBitmap(exhibit.isPlaying() ? mPlayingBitmap : mBitmap, left, top, null);
                 exhibit.setRect(getRect(left, top));
             }
+        }
+        if (save != -1) {
+            canvas.restoreToCount(save);
         }
     }
 
@@ -183,7 +211,7 @@ public class NavigationView extends View {
                         mRect.left = mRect.right - getMeasuredWidth();
                     }
                 }
-                if (Math.abs(dy) >= 10) {
+                if (Math.abs(dy) >= 10 && scrollableY) {
                     isMove = true;
                     mRect.offset(0, dy);
                     if (mRect.top < 0) {
