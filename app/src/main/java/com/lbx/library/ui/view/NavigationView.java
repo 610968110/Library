@@ -104,16 +104,6 @@ public class NavigationView extends View {
         mRect = new Rect();
     }
 
-    private OnLoadFinishListener mOnLoadFinishListener;
-
-    public interface OnLoadFinishListener {
-        void onLoadFinish();
-    }
-
-    public void setOnLoadFinishListener(OnLoadFinishListener onLoadFinishListener) {
-        this.mOnLoadFinishListener = onLoadFinishListener;
-    }
-
     public void setFloor(Floor floor) {
         mFloor = floor;
         if (floor != null) {
@@ -133,9 +123,6 @@ public class NavigationView extends View {
                 scrollableY = mBitmapH > getMeasuredHeight();
                 invide = true;
                 invalidate();
-                if (mOnLoadFinishListener != null) {
-                    mOnLoadFinishListener.onLoadFinish();
-                }
                 return false;
             });
         }
@@ -161,6 +148,7 @@ public class NavigationView extends View {
             //使图片Y居中
             canvas.translate(0, getMeasuredHeight() / 2 - mBmpH / 2);
         }
+
         Bitmap bitmap = mBitmapRegionDecoder.decodeRegion(mRect, null);
         if (bitmap != null) {
             canvas.drawBitmap(bitmap, 0, 0, null);

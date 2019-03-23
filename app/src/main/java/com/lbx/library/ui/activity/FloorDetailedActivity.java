@@ -112,10 +112,10 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-        XTools.UiUtil().showProgressDialog(this);
         mTopBar.bind(this, mFloor.getName());
         mTopBar.setLesserTitle(R.string.exhibits_list);
-        mPlayLayout.setAutoPlay(mAutoPlay = Config.AUTO_PLAY);
+        xLogUtil.e("mAutoPlay:" + mAutoPlay);
+        mPlayLayout.setAutoPlay(mAutoPlay = Config.isAutoPlay());
     }
 
     @Override
@@ -139,7 +139,6 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         });
         mPlayLayout.setOnSwitchListener(this);
         mNavigationView.setOnExhibitsLocationClickListener(this);
-        mNavigationView.setOnLoadFinishListener(() -> XTools.UiUtil().closeProgressDialog());
     }
 
     @Override

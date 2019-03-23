@@ -138,7 +138,7 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
 
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-        if (!Config.AUTO_PLAY) {
+        if (!Config.isAutoPlay()) {
             return;
         }
         List<Beacon> list = new ArrayList<>();

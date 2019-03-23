@@ -41,7 +41,10 @@ public class Config {
 
     private static LanguageType LANGUAGE = LanguageType.CHINESE;
     public static final String AUTO_PLAY_TAG = "auto_play";
-    public static boolean AUTO_PLAY = XTools.SpUtil().getBoolean(AUTO_PLAY_TAG, true);
+
+    public static boolean isAutoPlay() {
+        return XTools.SpUtil().getBoolean(AUTO_PLAY_TAG, true);
+    }
 
     public static void init() {
         Context context = XTools.getApplicationContext();
