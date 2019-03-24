@@ -5,11 +5,12 @@ import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.os.Looper;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -70,6 +71,7 @@ public class NavigationView extends View {
     private boolean isGuide;
     private Paint mGuidePaint;
     private int mCanvasOffsetY;
+    private BitmapShader mBottomShader, mRightShader, mTopShader, mLeftShader;
 
     @Override
     protected void onDetachedFromWindow() {
@@ -110,7 +112,19 @@ public class NavigationView extends View {
         mGuidePaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mGuidePaint.setStrokeWidth(16);
         mGuidePaint.setStrokeCap(Paint.Cap.ROUND);
-        mGuidePaint.setColor(Color.parseColor("#8FC7F1"));
+        Bitmap shaderBitmapB = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(getResources(), R.drawable.path_b), mGuidePaint.getStrokeWidth());
+        mBottomShader = new BitmapShader(shaderBitmapB, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        Bitmap shaderBitmapR = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(getResources(), R.drawable.path_r), mGuidePaint.getStrokeWidth());
+        mRightShader = new BitmapShader(shaderBitmapR, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        mBottomShader = new BitmapShader(shaderBitmapB, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        Bitmap shaderBitmapT = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(getResources(), R.drawable.path_t), mGuidePaint.getStrokeWidth());
+        mTopShader = new BitmapShader(shaderBitmapT, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        Bitmap shaderBitmapL = XTools.BitmapUtil().zoomBmp(
+                BitmapFactory.decodeResource(getResources(), R.drawable.path_l), mGuidePaint.getStrokeWidth());
+        mLeftShader = new BitmapShader(shaderBitmapL, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
     }
 
     public void setFloor(Floor floor) {
@@ -272,10 +286,13 @@ public class NavigationView extends View {
             Point endPoint = exhibits[1].getPoint();
             int startX = startPoint.x;
             int stopX = endPoint.x;
+            mGuidePaint.setShader(mBottomShader);
             canvas.drawLine(startX - mRect.left, startPoint.y - mRect.top,
                     startX - mRect.left, tempY - mRect.top, mGuidePaint);
+            mGuidePaint.setShader(mRightShader);
             canvas.drawLine(startX - mRect.left, tempY - mRect.top,
                     stopX - mRect.left, tempY - mRect.top, mGuidePaint);
+            mGuidePaint.setShader(mTopShader);
             canvas.drawLine(stopX - mRect.left, tempY - mRect.top,
                     stopX - mRect.left, endPoint.y - mRect.top, mGuidePaint);
         } catch (Exception ignored) {
