@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.media.AudioManager;
-import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
+import com.lbx.library.bean.event.GuideTest;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
@@ -21,6 +21,8 @@ import com.lbx.library.injector.modules.ActivityModule;
 import com.lbx.library.service.VoiceService;
 import com.lbx.library.ui.view.MyVideoView;
 import com.lbx.library.ui.view.TopBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -90,7 +92,7 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
 
     @Override
     public void initView(View view) {
-        mTopBar.bind(this);
+        mTopBar.bind(this, R.drawable.back_white, "");
     }
 
     @Override
@@ -105,7 +107,8 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
     public void initListener() {
         super.initListener();
         mVideoView.setOnPlayListener(this);
-        new Handler().postDelayed(() -> VoiceService.stop(this), 5000);
+        mTopBar.setRightIconImg(R.drawable.video_guide, v ->
+                EventBus.getDefault().post(new GuideTest(true)));
     }
 
     @Override

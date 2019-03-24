@@ -13,10 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/video_videoView_h">
 
-            <com.lbx.library.ui.view.TopBar
-                android:id="@+id/tb_video"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/topBar_h" />
 
             <com.lbx.library.ui.view.MyVideoView
                 android:id="@+id/vv_main"
@@ -24,6 +20,11 @@
                 android:layout_height="match_parent">
 
             </com.lbx.library.ui.view.MyVideoView>
+
+            <com.lbx.library.ui.view.TopBar
+                android:id="@+id/tb_video"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/topBar_h" />
 
         </FrameLayout>
 

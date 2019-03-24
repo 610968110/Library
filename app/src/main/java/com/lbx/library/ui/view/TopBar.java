@@ -76,7 +76,11 @@ public class TopBar extends FrameLayout {
     }
 
     public void bind(Activity activity, String title) {
-        mLeftImageView.setImageResource(R.drawable.back);
+        bind(activity, R.drawable.back, title);
+    }
+
+    public void bind(Activity activity, @DrawableRes int backImg, String title) {
+        mLeftImageView.setImageResource(backImg);
         mLeftImageView.setOnClickListener(v -> activity.finish());
         ViewGroup.LayoutParams layoutParams = mLeftImageView.getLayoutParams();
         layoutParams.width = XTools.WindowUtil().dip2px(20);

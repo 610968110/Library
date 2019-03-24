@@ -106,6 +106,7 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
             }
             mMediaPlayer.release();
             mMediaPlayer = null;
+            PLAYING_EXHIBITS = null;
         }
     }
 
@@ -118,6 +119,7 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void setExhibits(Exhibits exhibits) {
+        xLogUtil.e("setExhibits:");
         PLAYING_EXHIBITS = exhibits;
         String voice = exhibits.getVoice();
         try {
@@ -173,7 +175,7 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+        return mMediaPlayer == null ? 0 : mMediaPlayer.getCurrentPosition();
     }
 
     public int getDuration() {
@@ -181,7 +183,8 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+        xLogUtil.e("isPlaying mMediaPlayer:"+mMediaPlayer);
+        return mMediaPlayer != null && mMediaPlayer.isPlaying();
     }
 
     @Override

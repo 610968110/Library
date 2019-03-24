@@ -1,5 +1,6 @@
 package com.lbx.library.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
@@ -10,6 +11,7 @@ import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
+import com.lbx.library.bean.event.GuideTest;
 import com.lbx.library.bean.event.PlayingVoiceBean;
 import com.lbx.library.databinding.ActivityFloorDetailedBinding;
 import com.lbx.library.injector.ContextLifeCycle;
@@ -24,6 +26,8 @@ import com.lbx.library.ui.view.TopBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -200,5 +204,20 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     @Subscribe
     public void playLogo(PlayingVoiceBean bean) {
         playLogo(bean.getExhibits());
+    }
+
+    @Subscribe
+    public void guideTest(GuideTest guideTest) {
+        xLogUtil.e("guideTest");
+        ArrayList<Activity> activities = XTools.ActivityUtil().getActivities();
+        for (int i = activities.size() - 1; i >= 0; i--) {
+            Activity activity = activities.get(i);
+            if (!activity.getClass().getName().equals(this.getClass().getName())) {
+                activity.finish();
+            } else {
+                break;
+            }
+        }
+        mNavigationView.testGuide(guideTest.isGuide());
     }
 }

@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Looper;
@@ -65,6 +67,9 @@ public class NavigationView extends View {
      * 如果View大小大于图片高度，Y不可滚动
      */
     private boolean scrollableY;
+    private boolean isGuide;
+    private Paint mGuidePaint;
+    private int mCanvasOffsetY;
 
     @Override
     protected void onDetachedFromWindow() {
@@ -102,6 +107,10 @@ public class NavigationView extends View {
                         R.drawable.location_friend), mBitmapW);
         mBitmapH = mBitmap.getHeight();
         mRect = new Rect();
+        mGuidePaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        mGuidePaint.setStrokeWidth(16);
+        mGuidePaint.setStrokeCap(Paint.Cap.ROUND);
+        mGuidePaint.setColor(Color.parseColor("#8FC7F1"));
     }
 
     public void setFloor(Floor floor) {
@@ -114,13 +123,14 @@ public class NavigationView extends View {
             mBmpH = options.outHeight;
             Looper.myQueue().addIdleHandler(() -> {
                 mRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                scrollableY = mBmpH > getMeasuredHeight();
+                mCanvasOffsetY = scrollableY ? 0 : getMeasuredHeight() / 2 - mBmpH / 2;
                 try {
                     mBitmapRegionDecoder = BitmapRegionDecoder.newInstance(
                             getResources().openRawResource(floor.getBigImg()), false);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                scrollableY = mBitmapH > getMeasuredHeight();
                 invide = true;
                 invalidate();
                 return false;
@@ -146,13 +156,26 @@ public class NavigationView extends View {
         if (!scrollableY) {
             save = canvas.save();
             //使图片Y居中
-            canvas.translate(0, getMeasuredHeight() / 2 - mBmpH / 2);
+            canvas.translate(0, mCanvasOffsetY);
         }
+        drawBg(canvas);
+        drawExhibits(canvas);
+        if (isGuide) {
+            drawTestGuide(canvas);
+        }
+        if (save != -1) {
+            canvas.restoreToCount(save);
+        }
+    }
 
+    private void drawBg(Canvas canvas) {
         Bitmap bitmap = mBitmapRegionDecoder.decodeRegion(mRect, null);
         if (bitmap != null) {
             canvas.drawBitmap(bitmap, 0, 0, null);
         }
+    }
+
+    private void drawExhibits(Canvas canvas) {
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
                 Point point = exhibit.getPoint();
@@ -161,9 +184,6 @@ public class NavigationView extends View {
                 canvas.drawBitmap(exhibit.isPlaying() ? mPlayingBitmap : mBitmap, left, top, null);
                 exhibit.setRect(getRect(left, top));
             }
-        }
-        if (save != -1) {
-            canvas.restoreToCount(save);
         }
     }
 
@@ -221,7 +241,7 @@ public class NavigationView extends View {
                 //如果是点击
                 if (exhibits != null && !isMove) {
                     int x = (int) event.getX();
-                    int y = (int) event.getY();
+                    int y = (int) event.getY() - mCanvasOffsetY;
                     for (int i = 0; i < exhibits.length; i++) {
                         if (exhibits[i].getRect().contains(x, y)) {
                             if (mOnExhibitsLocationClickListener != null) {
@@ -238,6 +258,28 @@ public class NavigationView extends View {
                 break;
         }
         return true;
+    }
+
+    public void testGuide(boolean isGuide) {
+        this.isGuide = isGuide;
+        invalidate();
+    }
+
+    private void drawTestGuide(Canvas canvas) {
+        try {
+            int tempY = 740;
+            Point startPoint = exhibits[0].getPoint();
+            Point endPoint = exhibits[1].getPoint();
+            int startX = startPoint.x;
+            int stopX = endPoint.x;
+            canvas.drawLine(startX - mRect.left, startPoint.y - mRect.top,
+                    startX - mRect.left, tempY - mRect.top, mGuidePaint);
+            canvas.drawLine(startX - mRect.left, tempY - mRect.top,
+                    stopX - mRect.left, tempY - mRect.top, mGuidePaint);
+            canvas.drawLine(stopX - mRect.left, tempY - mRect.top,
+                    stopX - mRect.left, endPoint.y - mRect.top, mGuidePaint);
+        } catch (Exception ignored) {
+        }
     }
 
     public void refreshImageState() {
