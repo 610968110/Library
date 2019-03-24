@@ -1,10 +1,17 @@
 package com.lbx.library.bean;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
+
+import com.lbx.library.R;
+
+import lbx.xtoollib.XTools;
 
 /**
  * .  ┏┓　　　┏┓
@@ -48,7 +55,26 @@ public class Exhibits implements Parcelable {
     private boolean isPlaying;
     private Point point;
     private Rect rect;
+    private static final int BitmapW = 50;
+    private static final Context mAppContext = XTools.getApplicationContext();
+    public static Bitmap NORMAL_BITMAP = XTools.BitmapUtil().zoomBmp(
+            BitmapFactory.decodeResource(mAppContext.getResources(),
+                    R.drawable.location_zp), BitmapW);
+    public static Bitmap PLAYING_BITMAP = XTools.BitmapUtil().zoomBmp(
+            BitmapFactory.decodeResource(mAppContext.getResources(),
+                    R.drawable.location_zp_playing), BitmapW + 18);
 
+    public static int getBitmapW() {
+        return BitmapW;
+    }
+
+    public static int getBitmapH() {
+        return NORMAL_BITMAP.getHeight();
+    }
+
+    public Bitmap getCurrentBitmap() {
+        return isPlaying() ? PLAYING_BITMAP : NORMAL_BITMAP;
+    }
     public Exhibits(String id, String name, @DrawableRes int smallImage,
                     @DrawableRes int bigImage, String location, String content) {
         this.name = name;

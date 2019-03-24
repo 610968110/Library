@@ -5,12 +5,9 @@ import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.os.Looper;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -19,13 +16,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lbx.library.R;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
 
 import java.io.IOException;
 
-import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
 
 /**
@@ -54,9 +49,6 @@ import lbx.xtoollib.phone.xLogUtil;
 public class NavigationView extends View {
 
     private Floor mFloor;
-    private Bitmap mBitmap, mPlayingBitmap, mUserBitmap;
-    private int mBitmapW = 50;
-    private int mBitmapH;
     private Context mContext;
     private Exhibits[] exhibits;
     private boolean invide;
@@ -69,23 +61,8 @@ public class NavigationView extends View {
      */
     private boolean scrollableY;
     private boolean isGuide;
-    private Paint mGuidePaint;
+    private GuidePaint mGuidePaint;
     private int mCanvasOffsetY;
-    private BitmapShader mBottomShader, mRightShader, mTopShader, mLeftShader;
-
-    @Override
-    protected void onDetachedFromWindow() {
-        if (mBitmap != null) {
-            mBitmap.recycle();
-        }
-        if (mPlayingBitmap != null) {
-            mPlayingBitmap.recycle();
-        }
-        if (mUserBitmap != null) {
-            mUserBitmap.recycle();
-        }
-        super.onDetachedFromWindow();
-    }
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -98,33 +75,8 @@ public class NavigationView extends View {
     public NavigationView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
-        mBitmap = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.location_zp), mBitmapW);
-        mPlayingBitmap = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.location_zp_playing), mBitmapW + 18);
-        mUserBitmap = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.location_friend), mBitmapW);
-        mBitmapH = mBitmap.getHeight();
         mRect = new Rect();
-        mGuidePaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        mGuidePaint.setStrokeWidth(16);
-        mGuidePaint.setStrokeCap(Paint.Cap.ROUND);
-        Bitmap shaderBitmapB = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(getResources(), R.drawable.path_b), mGuidePaint.getStrokeWidth());
-        mBottomShader = new BitmapShader(shaderBitmapB, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        Bitmap shaderBitmapR = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(getResources(), R.drawable.path_r), mGuidePaint.getStrokeWidth());
-        mRightShader = new BitmapShader(shaderBitmapR, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        mBottomShader = new BitmapShader(shaderBitmapB, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        Bitmap shaderBitmapT = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(getResources(), R.drawable.path_t), mGuidePaint.getStrokeWidth());
-        mTopShader = new BitmapShader(shaderBitmapT, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        Bitmap shaderBitmapL = XTools.BitmapUtil().zoomBmp(
-                BitmapFactory.decodeResource(getResources(), R.drawable.path_l), mGuidePaint.getStrokeWidth());
-        mLeftShader = new BitmapShader(shaderBitmapL, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        mGuidePaint = new GuidePaint(context);
     }
 
     public void setFloor(Floor floor) {
@@ -193,9 +145,9 @@ public class NavigationView extends View {
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
                 Point point = exhibit.getPoint();
-                int left = point.x - mBitmapW / 2 - mRect.left;
-                int top = point.y - mBitmapH - mRect.top;
-                canvas.drawBitmap(exhibit.isPlaying() ? mPlayingBitmap : mBitmap, left, top, null);
+                int left = point.x - Exhibits.getBitmapW() / 2 - mRect.left;
+                int top = point.y - Exhibits.getBitmapH() - mRect.top;
+                canvas.drawBitmap(exhibit.getCurrentBitmap(), left, top, null);
                 exhibit.setRect(getRect(left, top));
             }
         }
@@ -203,7 +155,7 @@ public class NavigationView extends View {
 
     @NonNull
     private Rect getRect(int left, int top) {
-        return new Rect(left, top, left + mBitmapW, top + mBitmapH);
+        return new Rect(left, top, left + Exhibits.getBitmapW(), top + Exhibits.getBitmapH());
     }
 
     private boolean isMove;
@@ -286,13 +238,13 @@ public class NavigationView extends View {
             Point endPoint = exhibits[1].getPoint();
             int startX = startPoint.x;
             int stopX = endPoint.x;
-            mGuidePaint.setShader(mBottomShader);
+            mGuidePaint.changeBottom();
             canvas.drawLine(startX - mRect.left, startPoint.y - mRect.top,
                     startX - mRect.left, tempY - mRect.top, mGuidePaint);
-            mGuidePaint.setShader(mRightShader);
+            mGuidePaint.changeRight();
             canvas.drawLine(startX - mRect.left, tempY - mRect.top,
                     stopX - mRect.left, tempY - mRect.top, mGuidePaint);
-            mGuidePaint.setShader(mTopShader);
+            mGuidePaint.changeTop();
             canvas.drawLine(stopX - mRect.left, tempY - mRect.top,
                     stopX - mRect.left, endPoint.y - mRect.top, mGuidePaint);
         } catch (Exception ignored) {
