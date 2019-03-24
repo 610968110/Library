@@ -61,9 +61,18 @@ public class Config {
     }
 
     private static final Person MINE = new Person("888", "我", 274, 600, true);
+    private static final Person TEST_FRIEND = new Person("777", "测试朋友", 1670, 700);
+
+    public static Person[] getPerson() {
+        return new Person[]{MINE, TEST_FRIEND};
+    }
 
     public static Person getMine() {
         return MINE;
+    }
+
+    public static Person getTestFriend() {
+        return TEST_FRIEND;
     }
 
     public static LanguageType getLanguage() {

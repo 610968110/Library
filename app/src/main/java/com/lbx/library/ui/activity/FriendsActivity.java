@@ -1,6 +1,7 @@
 package com.lbx.library.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +11,16 @@ import com.lbx.library.R;
 import com.lbx.library.adapter.FriendListAdapter;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Friend;
+import com.lbx.library.bean.event.GuideFriendTest;
 import com.lbx.library.databinding.ActivityFriendsBinding;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
 import com.lbx.library.injector.modules.ActivityModule;
+import com.lbx.library.type.Floors;
 import com.lbx.library.ui.view.TopBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +138,19 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
 
     @Override
     public void onItemClick(RecyclerView recyclerView, int id, int position, Friend entity) {
-        XTools.UiUtil().toastInUI(mFriend.toString());
+        XTools.UiUtil().getSystemDialog(FriendsActivity.this,
+                "导航",
+                "您是否要导航到" + entity.getName() + "?",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FloorDetailedActivity.getIntent(FriendsActivity.this, Floors.FIRST_FLOOR.getFloor()).start();
+                        EventBus.getDefault().postSticky(new GuideFriendTest(true));
+                    }
+                },
+//                (dialog, which) -> EventBus.getDefault().post(new GuideFriendTest(true)),
+                (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     @Override

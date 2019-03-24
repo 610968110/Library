@@ -23,11 +23,11 @@ package com.lbx.library.bean.event;
  * @date 2019/3/24.
  */
 
-public class GuideTest {
+public class GuideFriendTest {
 
     private boolean isGuide;
 
-    public GuideTest(boolean isGuide) {
+    public GuideFriendTest(boolean isGuide) {
         this.isGuide = isGuide;
     }
 

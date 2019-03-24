@@ -11,7 +11,8 @@ import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
-import com.lbx.library.bean.event.GuideTest;
+import com.lbx.library.bean.event.GuideExhibitsTest;
+import com.lbx.library.bean.event.GuideFriendTest;
 import com.lbx.library.bean.event.PlayingVoiceBean;
 import com.lbx.library.databinding.ActivityFloorDetailedBinding;
 import com.lbx.library.injector.ContextLifeCycle;
@@ -128,7 +129,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         mBinding.setFloor(mFloor);
         mExhibitsArray = mFloor.getExhibitsArray();
         mNavigationView.setExhibits(mExhibitsArray);
-        mNavigationView.setPerson(Config.getMine());
+        mNavigationView.setPerson(Config.getPerson());
         mPlayingExhibits = VoiceService.PLAYING_EXHIBITS;
         if (mPlayingExhibits != null) {
             playLogo(mPlayingExhibits);
@@ -208,7 +209,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     }
 
     @Subscribe
-    public void guideTest(GuideTest guideTest) {
+    public void guideTest(GuideExhibitsTest guideTest) {
         xLogUtil.e("guideTest");
         ArrayList<Activity> activities = XTools.ActivityUtil().getActivities();
         for (int i = activities.size() - 1; i >= 0; i--) {
@@ -220,5 +221,13 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
             }
         }
         mNavigationView.testGuide(guideTest.isGuide());
+    }
+
+    @Subscribe(sticky = true)
+    public void guideFriendTest(GuideFriendTest guideTest) {
+        xLogUtil.e("guideFriendTest");
+        if (mNavigationView != null) {
+            mNavigationView.testGuideFriend(guideTest.isGuide());
+        }
     }
 }

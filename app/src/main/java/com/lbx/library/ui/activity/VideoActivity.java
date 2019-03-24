@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.lbx.library.R;
 import com.lbx.library.base.BaseActivity;
 import com.lbx.library.bean.Exhibits;
-import com.lbx.library.bean.event.GuideTest;
+import com.lbx.library.bean.event.GuideExhibitsTest;
 import com.lbx.library.injector.ContextLifeCycle;
 import com.lbx.library.injector.components.AppComponent;
 import com.lbx.library.injector.components.DaggerActivityComponent;
@@ -108,7 +108,7 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
         super.initListener();
         mVideoView.setOnPlayListener(this);
         mTopBar.setRightIconImg(R.drawable.video_guide, v ->
-                EventBus.getDefault().post(new GuideTest(true)));
+                EventBus.getDefault().post(new GuideExhibitsTest(true)));
     }
 
     @Override

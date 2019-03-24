@@ -62,6 +62,7 @@ public class NavigationView extends View {
      */
     private boolean scrollableY;
     private boolean isGuide;
+    private boolean isGuideFriend;
     private GuidePaint mGuidePaint;
     private int mCanvasOffsetY;
     private Person[] mPseson;
@@ -127,6 +128,9 @@ public class NavigationView extends View {
         drawPerson(canvas);
         if (isGuide) {
             drawTestGuide(canvas);
+        }
+        if (isGuideFriend) {
+            drawTestGuideFriend(canvas);
         }
         if (save != -1) {
             canvas.restoreToCount(save);
@@ -237,6 +241,13 @@ public class NavigationView extends View {
 
     public void testGuide(boolean isGuide) {
         this.isGuide = isGuide;
+        isGuideFriend = false;
+        invalidate();
+    }
+
+    public void testGuideFriend(boolean isGuideFriend) {
+        this.isGuideFriend = isGuideFriend;
+        isGuide = false;
         invalidate();
     }
 
@@ -247,6 +258,26 @@ public class NavigationView extends View {
             int startY = Config.getMine().getY();
             int stopX = exhibits[1].getX();
             int stopY = exhibits[1].getY();
+            mGuidePaint.changeBottom();
+            canvas.drawLine(startX - mRect.left, startY - mRect.top,
+                    startX - mRect.left, tempY - mRect.top, mGuidePaint);
+            mGuidePaint.changeRight();
+            canvas.drawLine(startX - mRect.left, tempY - mRect.top,
+                    stopX - mRect.left, tempY - mRect.top, mGuidePaint);
+            mGuidePaint.changeTop();
+            canvas.drawLine(stopX - mRect.left, tempY - mRect.top,
+                    stopX - mRect.left, stopY - mRect.top, mGuidePaint);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void drawTestGuideFriend(Canvas canvas) {
+        try {
+            int tempY = 740;
+            int startX = Config.getMine().getX();
+            int startY = Config.getMine().getY();
+            int stopX = Config.getTestFriend().getX();
+            int stopY = Config.getTestFriend().getY();
             mGuidePaint.changeBottom();
             canvas.drawLine(startX - mRect.left, startY - mRect.top,
                     startX - mRect.left, tempY - mRect.top, mGuidePaint);
