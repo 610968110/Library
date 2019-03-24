@@ -3,7 +3,6 @@ package com.lbx.library.bean;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -38,6 +37,7 @@ import lbx.xtoollib.XTools;
 
 public class Exhibits implements Parcelable {
 
+    static final int BITMAP_OFFSET = 18;
     private final String name;
     private final String id;
     private int floor;
@@ -53,7 +53,6 @@ public class Exhibits implements Parcelable {
     private String voice;
     private String video;
     private boolean isPlaying;
-    private Point point;
     private Rect rect;
     private static final int BitmapW = 50;
     private static final Context mAppContext = XTools.getApplicationContext();
@@ -62,7 +61,7 @@ public class Exhibits implements Parcelable {
                     R.drawable.location_zp), BitmapW);
     public static Bitmap PLAYING_BITMAP = XTools.BitmapUtil().zoomBmp(
             BitmapFactory.decodeResource(mAppContext.getResources(),
-                    R.drawable.location_zp_playing), BitmapW + 18);
+                    R.drawable.location_zp_playing), BitmapW + BITMAP_OFFSET);
 
     public static int getBitmapW() {
         return BitmapW;
@@ -75,6 +74,7 @@ public class Exhibits implements Parcelable {
     public Bitmap getCurrentBitmap() {
         return isPlaying() ? PLAYING_BITMAP : NORMAL_BITMAP;
     }
+
     public Exhibits(String id, String name, @DrawableRes int smallImage,
                     @DrawableRes int bigImage, String location, String content) {
         this.name = name;
@@ -181,14 +181,6 @@ public class Exhibits implements Parcelable {
         this.rect = rect;
     }
 
-    public void setPoint(Point point) {
-        this.point = point;
-    }
-
-    public Point getPoint() {
-        return point;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -208,6 +200,7 @@ public class Exhibits implements Parcelable {
         dest.writeString(this.voice);
         dest.writeString(this.video);
         dest.writeByte(this.isPlaying ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.rect, flags);
     }
 
     protected Exhibits(Parcel in) {
@@ -223,6 +216,7 @@ public class Exhibits implements Parcelable {
         this.voice = in.readString();
         this.video = in.readString();
         this.isPlaying = in.readByte() != 0;
+        this.rect = in.readParcelable(Rect.class.getClassLoader());
     }
 
     public static final Creator<Exhibits> CREATOR = new Creator<Exhibits>() {

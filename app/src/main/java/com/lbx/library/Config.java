@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import com.lbx.library.bean.Floor;
+import com.lbx.library.bean.Person;
 import com.lbx.library.type.Floors;
 import com.lbx.library.type.LanguageType;
 
@@ -57,6 +58,12 @@ public class Config {
             floor.clearExhibits();
             f.addExhibits(floor);
         }
+    }
+
+    private static final Person MINE = new Person("888", "我", 274, 600, true);
+
+    public static Person getMine() {
+        return MINE;
     }
 
     public static LanguageType getLanguage() {

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Looper;
 import android.support.annotation.AttrRes;
@@ -16,8 +15,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.lbx.library.Config;
 import com.lbx.library.bean.Exhibits;
 import com.lbx.library.bean.Floor;
+import com.lbx.library.bean.Person;
 
 import java.io.IOException;
 
@@ -63,6 +64,7 @@ public class NavigationView extends View {
     private boolean isGuide;
     private GuidePaint mGuidePaint;
     private int mCanvasOffsetY;
+    private Person[] mPseson;
 
     public NavigationView(@NonNull Context context) {
         this(context, null);
@@ -106,10 +108,6 @@ public class NavigationView extends View {
 
     public void setExhibits(Exhibits... exhibits) {
         this.exhibits = exhibits;
-        int size = exhibits == null ? 0 : exhibits.length;
-        for (int i = 0; i < size; i++) {
-            exhibits[i].setPoint(new Point(exhibits[i].getX(), exhibits[i].getY()));
-        }
         invalidate();
     }
 
@@ -126,11 +124,23 @@ public class NavigationView extends View {
         }
         drawBg(canvas);
         drawExhibits(canvas);
+        drawPerson(canvas);
         if (isGuide) {
             drawTestGuide(canvas);
         }
         if (save != -1) {
             canvas.restoreToCount(save);
+        }
+    }
+
+    private void drawPerson(Canvas canvas) {
+        if (mPseson != null && mPseson.length > 0) {
+            for (Person person : mPseson) {
+                int left = person.getX() - Exhibits.getBitmapW() / 2 - mRect.left;
+                int top = person.getY() - Exhibits.getBitmapH() - mRect.top;
+                canvas.drawBitmap(person.getCurrentBitmap(), left, top, null);
+                person.setRect(getRect(left, top));
+            }
         }
     }
 
@@ -144,9 +154,8 @@ public class NavigationView extends View {
     private void drawExhibits(Canvas canvas) {
         if (exhibits != null && exhibits.length > 0) {
             for (Exhibits exhibit : exhibits) {
-                Point point = exhibit.getPoint();
-                int left = point.x - Exhibits.getBitmapW() / 2 - mRect.left;
-                int top = point.y - Exhibits.getBitmapH() - mRect.top;
+                int left = exhibit.getX() - Exhibits.getBitmapW() / 2 - mRect.left;
+                int top = exhibit.getY() - Exhibits.getBitmapH() - mRect.top;
                 canvas.drawBitmap(exhibit.getCurrentBitmap(), left, top, null);
                 exhibit.setRect(getRect(left, top));
             }
@@ -234,19 +243,19 @@ public class NavigationView extends View {
     private void drawTestGuide(Canvas canvas) {
         try {
             int tempY = 740;
-            Point startPoint = exhibits[0].getPoint();
-            Point endPoint = exhibits[1].getPoint();
-            int startX = startPoint.x;
-            int stopX = endPoint.x;
+            int startX = Config.getMine().getX();
+            int startY = Config.getMine().getY();
+            int stopX = exhibits[1].getX();
+            int stopY = exhibits[1].getY();
             mGuidePaint.changeBottom();
-            canvas.drawLine(startX - mRect.left, startPoint.y - mRect.top,
+            canvas.drawLine(startX - mRect.left, startY - mRect.top,
                     startX - mRect.left, tempY - mRect.top, mGuidePaint);
             mGuidePaint.changeRight();
             canvas.drawLine(startX - mRect.left, tempY - mRect.top,
                     stopX - mRect.left, tempY - mRect.top, mGuidePaint);
             mGuidePaint.changeTop();
             canvas.drawLine(stopX - mRect.left, tempY - mRect.top,
-                    stopX - mRect.left, endPoint.y - mRect.top, mGuidePaint);
+                    stopX - mRect.left, stopY - mRect.top, mGuidePaint);
         } catch (Exception ignored) {
         }
     }
@@ -256,6 +265,10 @@ public class NavigationView extends View {
     }
 
     private OnExhibitsLocationClickListener mOnExhibitsLocationClickListener;
+
+    public void setPerson(Person... person) {
+        mPseson = person;
+    }
 
     public interface OnExhibitsLocationClickListener {
         void onClick(Floor floor, Exhibits exhibits, int pos);

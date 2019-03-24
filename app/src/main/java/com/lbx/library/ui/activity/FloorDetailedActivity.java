@@ -128,6 +128,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         mBinding.setFloor(mFloor);
         mExhibitsArray = mFloor.getExhibitsArray();
         mNavigationView.setExhibits(mExhibitsArray);
+        mNavigationView.setPerson(Config.getMine());
         mPlayingExhibits = VoiceService.PLAYING_EXHIBITS;
         if (mPlayingExhibits != null) {
             playLogo(mPlayingExhibits);
