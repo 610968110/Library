@@ -47,6 +47,18 @@
             android:visibility="gone"
             app:MyToastView_textColor="#EBD4BD" />
 
+        <com.lbx.library.ui.view.MyToastView
+            android:id="@+id/mtv_guide"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="34dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/guide_toast_bg"
+            android:visibility="gone"
+            app:MyToastView_textColor="#2198D4" />
+
     </RelativeLayout>
 
 </layout>

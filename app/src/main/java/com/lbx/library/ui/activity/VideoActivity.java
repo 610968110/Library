@@ -108,7 +108,7 @@ public class VideoActivity extends BaseActivity implements MyVideoView.OnPlayLis
         super.initListener();
         mVideoView.setOnPlayListener(this);
         mTopBar.setRightIconImg(R.drawable.video_guide, v ->
-                EventBus.getDefault().post(new GuideExhibitsTest(true)));
+                EventBus.getDefault().post(new GuideExhibitsTest(true, mExhibits.getName())));
     }
 
     @Override

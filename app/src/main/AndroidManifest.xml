@@ -35,8 +35,7 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden"
-            android:screenOrientation="portrait"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:theme="@style/CircularRevealAnimTheme_NoTitleBar" />
         <activity
             android:name=".ui.activity.FloorDetailedActivity"

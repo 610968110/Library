@@ -26,12 +26,18 @@ package com.lbx.library.bean.event;
 public class GuideExhibitsTest {
 
     private boolean isGuide;
+    private String name;
 
-    public GuideExhibitsTest(boolean isGuide) {
+    public GuideExhibitsTest(boolean isGuide, String name) {
         this.isGuide = isGuide;
+        this.name = name;
     }
 
     public boolean isGuide() {
         return isGuide;
+    }
+
+    public String getName() {
+        return name;
     }
 }

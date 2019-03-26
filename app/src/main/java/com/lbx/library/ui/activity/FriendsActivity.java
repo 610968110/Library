@@ -1,7 +1,6 @@
 package com.lbx.library.ui.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -141,16 +140,12 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
         XTools.UiUtil().getSystemDialog(FriendsActivity.this,
                 "导航",
                 "您是否要导航到" + entity.getName() + "?",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FloorDetailedActivity.getIntent(FriendsActivity.this, Floors.FIRST_FLOOR.getFloor()).start();
-                        EventBus.getDefault().postSticky(new GuideFriendTest(true));
-                    }
+                (dialog, which) -> {
+                    FloorDetailedActivity.getIntent(FriendsActivity.this, Floors.FIRST_FLOOR.getFloor()).start();
+                    EventBus.getDefault().postSticky(new GuideFriendTest(true, entity.getName() + " " + entity.getId()));
                 },
-//                (dialog, which) -> EventBus.getDefault().post(new GuideFriendTest(true)),
-                (dialog, which) -> dialog.dismiss())
-                .show();
+                (dialog, which) -> dialog.dismiss());
+//                .show();
     }
 
     @Override

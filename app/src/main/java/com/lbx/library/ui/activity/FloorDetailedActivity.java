@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.lbx.library.Config;
@@ -66,17 +67,18 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
     TopBar mTopBar;
     @BindView(R.id.sl_auto_play)
     SwitchLayout mPlayLayout;
-
-    private Floor mFloor;
-    private ActivityFloorDetailedBinding mBinding;
-    private boolean mAutoPlay;
     @BindView(R.id.nv_main)
     NavigationView mNavigationView;
     @BindView(R.id.mtv_voice)
     MyToastView mVoiceView;
+    @BindView(R.id.mtv_guide)
+    MyToastView mGuideView;
     @Inject
     @ContextLifeCycle
     Context mContext;
+    private Floor mFloor;
+    private ActivityFloorDetailedBinding mBinding;
+    private boolean mAutoPlay;
     private VoiceService mVoiceService;
     private Exhibits[] mExhibitsArray;
     private Exhibits mPlayingExhibits;
@@ -189,6 +191,20 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         }
     }
 
+    private void guideToast(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            mGuideView.setText1("正在导航到：" + name);
+            mGuideView.setText2("取消", v -> {
+                mGuideView.setVisibility(View.GONE);
+                mNavigationView.testGuide(false);
+                mNavigationView.testGuideFriend(false);
+            });
+            mGuideView.setVisibility(View.VISIBLE);
+        } else {
+            mGuideView.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onServiceConnected(VoiceService service) {
         super.onServiceConnected(service);
@@ -221,6 +237,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
             }
         }
         mNavigationView.testGuide(guideTest.isGuide());
+        guideToast(guideTest.getName());
     }
 
     @Subscribe(sticky = true)
@@ -228,6 +245,7 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         xLogUtil.e("guideFriendTest");
         if (mNavigationView != null) {
             mNavigationView.testGuideFriend(guideTest.isGuide());
+            guideToast(guideTest.getName());
         }
     }
 }
