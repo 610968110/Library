@@ -144,8 +144,8 @@ public class FriendsActivity extends BaseActivity implements BaseDataAdapter.OnI
                     FloorDetailedActivity.getIntent(FriendsActivity.this, Floors.FIRST_FLOOR.getFloor()).start();
                     EventBus.getDefault().postSticky(new GuideFriendTest(true, entity.getName() + " " + entity.getId()));
                 },
-                (dialog, which) -> dialog.dismiss());
-//                .show();
+                (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     @Override

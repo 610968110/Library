@@ -129,6 +129,6 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     public void deviceInformation(MenuItem item) {
         xLogUtil.e(this, "设备信息");
-        EmptyActivity.getIntent(this, XTools.ResUtil().getString(R.string.deviceInformation)).start();
+        DeviceInfoActivity.getIntent(this).start();
     }
 }

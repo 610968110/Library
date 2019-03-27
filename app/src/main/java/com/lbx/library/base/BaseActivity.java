@@ -112,6 +112,7 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
             Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             String CardId = ByteArrayToHexString(tagFromIntent.getId());
             xLogUtil.e("CardId:" + CardId);
+            XTools.UiUtil().toastInUI("CardId:" + CardId);
             if (mVoiceService != null) {
                 //TODO 测试的第一个
                 mVoiceService.setExhibits(Floors.FIRST_FLOOR.getFloor().getExhibitsList().get(0));

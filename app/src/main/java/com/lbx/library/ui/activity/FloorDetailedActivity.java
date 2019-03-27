@@ -182,8 +182,9 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
             mVoiceView.setText1("正在讲解：" + exhibits.getName());
             mVoiceView.setText2("关闭", v -> {
                 if (mVoiceService != null) {
-                    mVoiceService.pause();
+                    mVoiceService.recycleMediaPlayer();
                 }
+                mVoiceView.setVisibility(View.GONE);
             });
             mVoiceView.setVisibility(View.VISIBLE);
         } else {
@@ -195,9 +196,9 @@ public class FloorDetailedActivity extends BaseActivity implements SwitchLayout.
         if (!TextUtils.isEmpty(name)) {
             mGuideView.setText1("正在导航到：" + name);
             mGuideView.setText2("取消", v -> {
-                mGuideView.setVisibility(View.GONE);
                 mNavigationView.testGuide(false);
                 mNavigationView.testGuideFriend(false);
+                mGuideView.setVisibility(View.GONE);
             });
             mGuideView.setVisibility(View.VISIBLE);
         } else {

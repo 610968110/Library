@@ -99,7 +99,7 @@ public class VoiceService extends Service implements MediaPlayer.OnPreparedListe
         mMediaPlayer.setOnPreparedListener(this);
     }
 
-    private void recycleMediaPlayer() {
+    public void recycleMediaPlayer() {
         if (mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();

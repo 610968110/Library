@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="version"
+            type="String" />
+
+        <variable
+            name="imei"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:orientation="vertical">
+
+        <com.lbx.library.ui.view.TopBar
+            android:id="@+id/tb_device"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topBar_h" />
+
+        <ImageView
+            android:id="@+id/iv_device_logo"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tb_device"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/menu_logo" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/iv_device_logo"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:text="设备ID"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/iv_device_logo"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:text="@{imei}"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_imei"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tv_id"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:text="版本号"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_id"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:text="@{version}"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_comp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tv_imei"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:text="出品方"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_imei"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:text="北京迅锋科技有限公司"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+</layout>
