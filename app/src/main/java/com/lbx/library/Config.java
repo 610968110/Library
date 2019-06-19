@@ -96,5 +96,6 @@ public class Config {
             Manifest.permission.BLUETOOTH_ADMIN,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED,
             Manifest.permission.ACCESS_COARSE_LOCATION};
 }

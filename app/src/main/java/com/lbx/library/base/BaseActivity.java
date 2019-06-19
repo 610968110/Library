@@ -77,7 +77,7 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
             XTools.UiUtil().showToast("您的设备不支持nfc");
         }
         if (connectService()) {
-            VoiceService.getIntent(this).bindService(mConnection);
+            VoiceService.getIntent(this).bindService(this, mConnection);
         }
     }
 
@@ -184,7 +184,7 @@ public abstract class BaseActivity extends lbx.xtoollib.base.BaseActivity implem
     @Override
     protected void onDestroy() {
         if (connectService()) {
-            VoiceService.getIntent(this).unbindService(mConnection);
+            VoiceService.getIntent(this).unbindService(this, mConnection);
         }
         super.onDestroy();
     }

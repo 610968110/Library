@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -83,6 +84,13 @@
             android:name=".service.VoiceService"
             android:enabled="true"
             android:exported="false" />
+
+        <receiver android:name=".BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

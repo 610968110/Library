@@ -177,6 +177,7 @@ public class CoreService extends Service implements BeaconConsumer, RangeNotifie
             mBeaconManager.removeRangeNotifier(this);
             mBeaconManager.unbind(this);
         }
+        mBLEPlayExhibits = null;
         super.onDestroy();
     }
 }

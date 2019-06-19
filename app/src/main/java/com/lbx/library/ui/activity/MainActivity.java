@@ -21,6 +21,12 @@ import com.lbx.library.service.CoreService;
 import com.lbx.library.ui.fragment.FloorFragment;
 import com.lbx.library.ui.view.TopBar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.xLogUtil;
@@ -66,6 +72,19 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
 
     @Override
     public void initView(View view) {
+        try {
+            long now = System.currentTimeMillis();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+            calendar.setTime(dateFormat.parse("2019-06-30 00:00:00"));
+            if (now > calendar.getTimeInMillis()) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
         CircularRevealUtils.ActivityCircularReveal().setCircularRevealAnim(this, false);
         ViewGroup.LayoutParams params = mNavigationView.getLayoutParams();
         params.width = XTools.WindowUtil().getScreenWidth() -
@@ -89,6 +108,13 @@ public class MainActivity extends BaseActivity implements ICircularReveal {
     protected void onDestroy() {
         CoreService.stop(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //不知道为什么返回不好使，直接kill掉吧！
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override
